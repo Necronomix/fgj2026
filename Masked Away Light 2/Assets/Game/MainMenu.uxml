@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:GroupBox style="top: 45%;">
+        <ui:Button text="Start" name="StartButton" />
+        <ui:Button text="Exit" name="ExitButton" />
+    </ui:GroupBox>
+</ui:UXML>
