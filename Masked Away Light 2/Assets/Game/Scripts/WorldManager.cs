@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using Masked.Utils;
+using System.IO;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -15,30 +16,15 @@ namespace Masked.World
         private void Awake()
         {
             WorldData data = null;
-            if (File.Exists(WorldPath))
+            data = JsonAccess.FetchOrCreateJson(new WorldData
             {
-                var file = File.ReadAllText(WorldPath);
-
-                if (file != null && file.Length > 0)
-                {
-                    data = JsonUtility.FromJson<WorldData>(file);
-                }
-            }
-            else
-            {
-                data = new WorldData
-                {
-                    Coordinates = new[] { 0, 0 },
-                    Location = "City"
-                };
-
-                
-                var asJson = JsonUtility.ToJson(data);
-
-                File.WriteAllText(WorldPath, asJson);
-            }
+                Coordinates = new[] { 0, 0 },
+                Location = "City"
+            }, WorldPath);
             UpdateFromData(data);
         }
+
+
 
         private void UpdateFromData(WorldData data)
         {

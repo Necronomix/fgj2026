@@ -209,6 +209,7 @@ GameObject:
   - component: {fileID: 2126273521}
   - component: {fileID: 2126273522}
   - component: {fileID: 2126273523}
+  - component: {fileID: 2126273524}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -244,6 +245,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _worldManager: {fileID: 2126273523}
+  _playerManager: {fileID: 2126273524}
   State: 0
 --- !u!114 &2126273523
 MonoBehaviour:
@@ -255,6 +257,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a3550f0b72787ce44a6a5a67dded43e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2126273524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2126273520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30bb37e8cf7809b46952a5fc23313cb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807

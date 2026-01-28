@@ -1,3 +1,4 @@
+using Masked.Player;
 using Masked.World;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -16,6 +17,7 @@ namespace Masked.GameState
     public class GameStateManager : MonoBehaviour
     {
         [SerializeField] private WorldManager _worldManager;
+        [SerializeField] private PlayerStateManager _playerManager;
 
         public static GameStateManager Instance;
 
@@ -47,6 +49,8 @@ namespace Masked.GameState
 
             await _worldManager.LoadWorld();
             State = State.OverWorld;
+
+            _playerManager.SetPlayerName("NecSimo");
         }
 
         public bool TransitionTo(State state)
