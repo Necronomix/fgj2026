@@ -69,6 +69,8 @@ namespace Masked.Fights
 
             await UniTask.WaitUntil(() => _winningParty != null);
 
+            _inFight = false;
+
             return (_winningParty == _player, _player.HP);
         }
 
@@ -249,7 +251,7 @@ namespace Masked.Fights
             defendant.HP -= flooredDamage;
 
 #if UNITY_EDITOR
-            UnityEngine.Debug.Log($"{party.Name} did {flooredDamage} dmg with {cardPlayed.CardName}, leaving them with {party.HP} HP");
+            UnityEngine.Debug.Log($"{party.Name} did {flooredDamage} dmg with {cardPlayed.CardName}, leaving them with {defendant.HP} HP");
 #endif
 
             return true;
