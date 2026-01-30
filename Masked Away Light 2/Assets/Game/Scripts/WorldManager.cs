@@ -18,6 +18,8 @@ namespace Masked.World
 
         [SerializeField]
         private GameObject _playerPrefab;
+        [SerializeField]
+        private GameObject _cameraPrefab;
 
         public string WorldPath => Path.Combine(Application.persistentDataPath, "world.json");
 
@@ -52,7 +54,12 @@ namespace Masked.World
             await SceneManager.LoadSceneAsync(_currentArea, LoadSceneMode.Additive);
 
             // Spawn player
-            Instantiate(_playerPrefab, new Vector3(_currentPosition.x, 0, _currentPosition.y), Quaternion.identity);
+            var playerObject = Instantiate(_playerPrefab, new Vector3(_currentPosition.x, 0, _currentPosition.y), Quaternion.identity);
+            playerObject.GetComponent<Player.PlayerWalkController>().WorldManager = this;
+
+            // Spawn camera
+            var cameraObject = Instantiate(_cameraPrefab, new Vector3(_currentPosition.x, 0, _currentPosition.y), Quaternion.identity);
+            cameraObject.GetComponent<CameraController>().followTarget = playerObject;
         }
     }
 }
