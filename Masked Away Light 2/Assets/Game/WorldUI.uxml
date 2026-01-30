@@ -1,6 +1,19 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:VisualElement name="VisualElement" class="game-panel" style="flex-grow: 0;">
-        <ui:Label text="Hello World!" />
-        <ui:Button text="Press here" />
+    <ui:VisualElement style="flex-grow: 1;">
+        <ui:VisualElement name="EmptySpace" style="flex-grow: 1;" />
+        <ui:VisualElement name="BottomPanel" class="game-panel" style="bottom: auto; top: auto;">
+            <ui:VisualElement name="MovementButtons" style="flex-grow: 1;">
+                <ui:VisualElement name="ButtonRow" style="flex-grow: 1; justify-content: center; align-items: center;">
+                    <ui:Button text="^" name="Up" double-click-selects-word="false" triple-click-selects-line="false" focusable="false" />
+                </ui:VisualElement>
+                <ui:VisualElement name="ButtonRow" style="flex-grow: 1; flex-direction: row; justify-content: center;">
+                    <ui:Button text="&lt;" name="Left" double-click-selects-word="false" triple-click-selects-line="false" focusable="false" />
+                    <ui:Button text="&gt;" name="Right" focusable="false" double-click-selects-word="false" triple-click-selects-line="false" />
+                </ui:VisualElement>
+                <ui:VisualElement name="ButtonRow" style="flex-grow: 1; align-items: center;">
+                    <ui:Button text="v" name="Down" focusable="false" double-click-selects-word="false" triple-click-selects-line="false" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

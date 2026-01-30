@@ -35,7 +35,7 @@ namespace Masked.Player
             Assert.IsNotNull(_animator, "Animator component not found in children of PlayerWalkController");
         }
 
-        void Move(WalkDirection direction)
+        public void Move(WalkDirection direction)
         {
             WorldManager.CurrentPosition += _directions[(int)direction];
             _animator.SetBool("Up", direction == WalkDirection.Up);
