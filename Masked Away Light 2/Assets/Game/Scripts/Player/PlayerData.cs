@@ -4,6 +4,8 @@ namespace Masked.Player
 {
     public interface IPlayerData : IData
     {
+        string PlayerName { get; }
+
         void SetPlayerName(string value);
     }
 
@@ -12,6 +14,8 @@ namespace Masked.Player
     {
         public MaskData EquippedMask;
         public string PlayerName;
+
+        string IPlayerData.PlayerName => PlayerName;
 
         public void SetPlayerName(string value)
         {

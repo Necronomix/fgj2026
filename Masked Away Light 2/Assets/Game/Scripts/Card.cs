@@ -10,6 +10,13 @@ namespace Masked
         [SerializeField] private ElementPairing _attackPairing;
         [SerializeField] private ElementPairing _defencePairing;
 
+        public Card(Card card)
+        {
+            _cardName = card.CardName;
+            _attackPairing = card.AttackPairing;
+            _defencePairing = card.DefencePairing;
+        }
+
         public string CardName => _cardName;
         public ElementPairing AttackPairing => _attackPairing;
         public ElementPairing DefencePairing => _defencePairing;

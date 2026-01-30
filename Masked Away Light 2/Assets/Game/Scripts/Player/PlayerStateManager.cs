@@ -10,6 +10,7 @@ namespace Masked.Player
 
         private IPlayerData _data;
 
+        public string PlayerName => _data.PlayerName;
         public string PlayerPath => Path.Combine(Application.persistentDataPath, "player.json");
         private void Awake()
         {

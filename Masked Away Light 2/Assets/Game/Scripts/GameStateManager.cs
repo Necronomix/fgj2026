@@ -1,7 +1,9 @@
+using Masked.Fights;
 using Masked.Player;
 using Masked.World;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 namespace Masked.GameState
@@ -18,6 +20,9 @@ namespace Masked.GameState
     {
         [SerializeField] private WorldManager _worldManager;
         [SerializeField] private PlayerStateManager _playerManager;
+        [SerializeField] private string _menuScene = "MainMenu";
+        [SerializeField] private string _fightScene = "FightScene";
+
 
         public static GameStateManager Instance;
 
@@ -29,7 +34,7 @@ namespace Masked.GameState
             Instance = this;
             State = State.Loading;
 
-            var loading = SceneManager.LoadSceneAsync("MainMenu", LoadSceneMode.Additive);
+            var loading = SceneManager.LoadSceneAsync(_menuScene, LoadSceneMode.Additive);
 
             loading.completed += MenuLoaded;
         }
@@ -45,12 +50,63 @@ namespace Masked.GameState
 
         public async Task FromMenuToWorld()
         {
-            await SceneManager.UnloadSceneAsync("MainMenu");
+            if (State != State.MainMenu)
+            {
+                return;
+            }
+
+            await SceneManager.UnloadSceneAsync(_menuScene);
 
             await _worldManager.LoadWorld();
             State = State.OverWorld;
 
             _playerManager.SetPlayerName("NecSimo");
+        }
+
+        public async Task FromWorldToFight()
+        {
+            if (State != State.OverWorld)
+            {
+                return;
+            }
+
+            await _worldManager.UnloadWorld();
+
+            var handle = SceneManager.LoadSceneAsync(_fightScene, LoadSceneMode.Additive);
+            await handle;
+            State = State.InFight;
+            var fight = SceneManager.GetSceneAt(SceneManager.sceneCount -1);
+            SceneManager.SetActiveScene(fight);
+            var roots = fight.GetRootGameObjects();
+            foreach (var root in roots)
+            {
+                if (root.TryGetComponent<FightController>(out var controller))
+                {
+                    InitializeFightController(controller);
+                }
+            }
+        }
+
+        private void InitializeFightController(FightController controller)
+        {
+            var player = new FightParty(_playerManager.PlayerName, damage: 3, hp: 10);
+            var enemy = new FightParty("Enemy", damage: 1, hp: 15);
+
+            controller.InitializeFight(player, enemy, this);
+        }
+
+        public async Task FromFightToWorld()
+        {
+            if (State != State.InFight)
+            {
+                return;
+            }
+
+            await SceneManager.UnloadSceneAsync(_fightScene);
+            
+            await _worldManager.LoadWorld();
+
+            State = State.OverWorld;
         }
 
         public bool TransitionTo(State state)
@@ -73,6 +129,17 @@ namespace Masked.GameState
                     break;
             }
             return true;
+        }
+
+        private void Update()
+        {
+            var kb = Keyboard.current;
+            if (kb == null) return;
+            
+            if (kb.fKey.wasPressedThisFrame)
+            {
+                FromWorldToFight();
+            }
         }
     }
 }

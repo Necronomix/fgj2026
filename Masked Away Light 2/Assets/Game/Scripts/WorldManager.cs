@@ -61,5 +61,11 @@ namespace Masked.World
             var cameraObject = Instantiate(_cameraPrefab, new Vector3(_currentPosition.x, 0, _currentPosition.y), Quaternion.identity);
             cameraObject.GetComponent<CameraController>().followTarget = playerObject;
         }
+
+        internal async Task UnloadWorld()
+        {
+            await SceneManager.UnloadSceneAsync(_currentArea);
+            _currentArea = null;
+        }
     }
 }
