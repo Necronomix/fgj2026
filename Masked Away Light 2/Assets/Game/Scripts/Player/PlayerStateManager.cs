@@ -1,11 +1,16 @@
-﻿using Masked.Utils;
+﻿using Masked.Inventory;
+using Masked.Utils;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 
 namespace Masked.Player
 {
     internal class PlayerStateManager : MonoBehaviour
     {
+        [SerializeField] private InventoryItemBehaviour[] _allItems;
+
         public static PlayerStateManager Instance;
 
         private IPlayerData _data;
@@ -29,6 +34,18 @@ namespace Masked.Player
             _data = data;
         }
 
+
+        public Dictionary<int, InventoryItemRepresentation> GetInventory()
+        {
+            var inventory = new Dictionary<int, InventoryItemRepresentation>();
+            foreach (var (key, item) in _data.InventoryData.Inventory)
+            {
+                var inventoryObject = _allItems.FirstOrDefault(i => i.Id == item.Id);
+
+                inventory[key] = new InventoryItemRepresentation(item, inventoryObject);
+            }
+            return inventory;
+        }
 
         public void SetPlayerName(string name)
         {

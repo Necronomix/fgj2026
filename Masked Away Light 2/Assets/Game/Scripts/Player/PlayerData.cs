@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Masked.Inventory;
+using System;
 
 namespace Masked.Player
 {
@@ -7,19 +8,23 @@ namespace Masked.Player
         string PlayerName { get; }
         int HP { get; }
         int Damage { get; }
+        InventoryData InventoryData { get; }
 
         void SetPlayerName(string value);
         void SetPlayerHp(int value);
+        bool PlaceInInventory(int slot, InventoryItemRepresentation item);
     }
 
     [Serializable]
     public class PlayerData : Data, IPlayerData
     {
         public MaskData EquippedMask;
+        public InventoryData InventoryData;
         public string PlayerName;
         public int CurrentHP;
 
         string IPlayerData.PlayerName => PlayerName;
+        InventoryData IPlayerData.InventoryData => InventoryData;
 
         int IPlayerData.HP => CurrentHP;
 
@@ -35,6 +40,17 @@ namespace Masked.Player
         {
             _changed = CurrentHP != value;
             CurrentHP = value;
+        }
+
+        public bool PlaceInInventory(int slot, InventoryItemRepresentation item)
+        {
+            if (InventoryData.Inventory.TryGetValue(slot, out var data) || slot >= InventoryData.MaximumSize)
+            {
+                return false;
+            }
+
+            InventoryData.Inventory[slot] = new InventoryItem(item);
+            return true;
         }
     }
 
