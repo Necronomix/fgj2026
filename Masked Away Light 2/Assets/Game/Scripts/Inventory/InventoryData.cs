@@ -35,7 +35,7 @@ namespace Masked.Inventory
     [Serializable]
     public class InventoryData
     {
-        public int MaximumSize;
+        public int MaximumSize = 20;
         public Dictionary<int, InventoryItem> Inventory = new();
 
 
