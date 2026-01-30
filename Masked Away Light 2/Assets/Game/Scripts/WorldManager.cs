@@ -86,5 +86,10 @@ namespace Masked.World
                 playerWalkController.Move(Player.PlayerWalkController.WalkDirection.Right);
             };
         }
+
+        internal async Task UnloadWorld()
+        {
+            await SceneManager.UnloadSceneAsync(_currentArea);
+        }
     }
 }

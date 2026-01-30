@@ -1,26 +1,45 @@
 ﻿using Masked.Elements;
+using Masked.GameState;
 using Masked.Utils;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Masked.Fights
 {
     internal class FightController : MonoBehaviour
     {
         [SerializeField] private ElementalEffectivenessChart _chart;
+        [SerializeField] private Card[] _cards;
         private int _atStartOfTurnCards = 3;
 
         private FightParty _player;
-        private Card _playerCard;
+        private CardRepresentation _playerCard;
         private FightParty _enemy;
 
         private FightParty _partyInTurn;
         private EnemyAI _enemyAI;
         private FightParty _partyOutOfTurn;
 
-        public void InitializeFight(FightParty player, FightParty enemy)
+        private GameStateManager _gameStateManager;
+
+        public void InitializeFight(FightParty player, FightParty enemy, GameState.GameStateManager gameStateManager)
         {
+            _gameStateManager = gameStateManager;
+            //TODO: player and enemy come with their own decks to fight
+            var cards = new List<CardRepresentation>();
+            for (int i = 0; i < _cards.Length; i++)
+            {
+                for (int card = 0; card < 10; card++)
+                {
+                    cards.Add(new CardRepresentation(_cards[i]));
+                }
+            }
+
+            cards = FillCards(player, cards);
+            FillCards(enemy, cards);
+
             _player = player;
             _enemy = enemy;
 
@@ -34,14 +53,31 @@ namespace Masked.Fights
 
             DrawUntil(_player, _atStartOfTurnCards);
             DrawUntil(_enemy, _atStartOfTurnCards);
+
+#if UNITY_EDITOR
+            UnityEngine.Debug.Log($"Fight initialized between {_player.Name} and {_enemy.Name}");
+#endif
         }
 
-        private List<Card> Shuffle(List<Card> deck)
+        private static List<CardRepresentation> FillCards(FightParty player, List<CardRepresentation> cards)
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                cards = cards.Shuffle();
+                var taken = cards.First();
+                cards.RemoveAt(0);
+                player.Deck.Add(taken);
+            }
+
+            return cards;
+        }
+
+        private List<CardRepresentation> Shuffle(List<CardRepresentation> deck)
         {
             return deck.Shuffle();
         }
 
-        public bool PlayerSelectedCard(Card card)
+        public bool PlayerSelectedCard(CardRepresentation card)
         {
             if (_partyInTurn != _player)
             {
@@ -53,17 +89,46 @@ namespace Masked.Fights
             }
 
             _playerCard = card;
+#if UNITY_EDITOR
+            UnityEngine.Debug.Log($"Player selected {card.CardName} from {string.Join(", ", _player.Hand)}");
+#endif
             return true;
         }
 
         private void Update()
         {
+            if (_player == null || _enemy == null)
+            {
+                return;
+            }
+
+            var kb = Keyboard.current;
+            if (kb == null) return;
+
+            if (kb.digit1Key.wasPressedThisFrame)
+            {
+                PlayerSelectedCard(_player.Hand.First());
+            }
+            if (kb.digit2Key.wasPressedThisFrame)
+            {
+                PlayerSelectedCard(_player.Hand.Skip(1).First());
+            }
+            if (kb.digit3Key.wasPressedThisFrame)
+            {
+                PlayerSelectedCard(_player.Hand.Skip(2).First());
+            }
+
+            if (_player.HP <= 0 || _enemy.HP <= 0)
+            {
+                _enemy = null;
+                _gameStateManager.FromFightToWorld();
+                return;
+            }
+
             if (_partyInTurn == _player && _playerCard != null)
             {
                 ProcessPlayerTurn();
-            }
-
-            if (_partyInTurn == _enemy)
+            } else if (_partyInTurn == _enemy)
             {
                 ProcessEnemyTurn();
             }
@@ -85,6 +150,11 @@ namespace Masked.Fights
         {
             ClearHandEndOfTurn(current);
             DrawUntil(current, _atStartOfTurnCards);
+#if UNITY_EDITOR
+            UnityEngine.Debug.Log($"{current.Name} has {current.Deck.Count} in deck, {current.Hand.Count} in hand and {current.DiscardPile.Count} in Discard");
+            UnityEngine.Debug.Log($"{current.Name} has {current.HP} HP, {other.Name} has {other.HP} HP");
+#endif
+
             _partyInTurn = other;
             _partyOutOfTurn = current;
         }
@@ -92,7 +162,7 @@ namespace Masked.Fights
         private void DrawUntil(FightParty party, int until)
         {
             var toDraw = until - party.Hand.Count;
-            IEnumerable<Card> cards = DrawFromDeck(party, until);
+            IEnumerable<CardRepresentation> cards = DrawFromDeck(party, until);
 
             //Not enough cards in deck to draw all
             if (cards.Count() < until)
@@ -107,7 +177,7 @@ namespace Masked.Fights
             party.Hand.AddRange(cards);
         }
 
-        private static IEnumerable<Card> DrawFromDeck(FightParty party, int until)
+        private static IEnumerable<CardRepresentation> DrawFromDeck(FightParty party, int until)
         {
             var cards = party.Deck.Take(until);
 
@@ -142,7 +212,7 @@ namespace Masked.Fights
             party.Hand.Clear();
         }
 
-        public bool UseCardForTurn(FightParty party, FightParty defendant, Card cardPlayed)
+        public bool UseCardForTurn(FightParty party, FightParty defendant, CardRepresentation cardPlayed)
         {
             //TODO: show damage
             //TODO: is reference check fine?
@@ -157,11 +227,16 @@ namespace Masked.Fights
 
             var damage = cardPlayed.AttackPairing.Effectiveness * party.Damage * Random.Range(0.8f, 1.2f);
 
-            var currentDefenceEffect = defendant.CurrentDefence;
+            var currentDefenceEffect = defendant.CurrentDefence == null ? 1 : defendant.CurrentDefence.Effectiveness /
+                _chart.GetMultiplier(cardPlayed.AttackPairing.Element, defendant.CurrentDefence.Element);
 
-            var reducedDamage = damage * 1 - currentDefenceEffect.Effectiveness /
-                _chart.GetMultiplier(cardPlayed.AttackPairing.Element, currentDefenceEffect.Element);
-            defendant.HP -= Mathf.FloorToInt(reducedDamage);
+            var reducedDamage = damage * 1 - currentDefenceEffect;
+            var flooredDamage = Mathf.FloorToInt(reducedDamage);
+            defendant.HP -= flooredDamage;
+
+#if UNITY_EDITOR
+            UnityEngine.Debug.Log($"{party.Name} did {flooredDamage} dmg with {cardPlayed.CardName}, leaving them with {party.HP} HP");
+#endif
 
             return true;
         }

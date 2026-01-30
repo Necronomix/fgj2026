@@ -6,7 +6,7 @@ namespace Masked.Fights
 {
     internal class EnemyAI
     {
-        internal Card SelectCard(FightParty enemy, FightParty player, ElementalEffectivenessChart chart)
+        internal CardRepresentation SelectCard(FightParty enemy, FightParty player, ElementalEffectivenessChart chart)
         {
             if (enemy.Hand == null || enemy.Hand.Count == 0)
             {
