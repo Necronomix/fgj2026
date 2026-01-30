@@ -261,6 +261,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerPrefab: {fileID: 4495521739122801050, guid: 3f8b3463ecae1304e88bb34584fdb0f4, type: 3}
   _cameraPrefab: {fileID: 4949055172284991289, guid: 4daf9b1fa2bb1ae4c94aca5e5dbe6466, type: 3}
+  _worldUiPrefab: {fileID: 562288221512388106, guid: a2ade766efecdbb4190c83c70e6689ba, type: 3}
 --- !u!114 &2126273524
 MonoBehaviour:
   m_ObjectHideFlags: 0
