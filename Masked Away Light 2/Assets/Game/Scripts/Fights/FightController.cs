@@ -128,10 +128,7 @@ namespace Masked.Fights
             if (_partyInTurn == _player && _playerCard != null)
             {
                 ProcessPlayerTurn();
-            }
-
-
-            if (_partyInTurn == _enemy)
+            } else if (_partyInTurn == _enemy)
             {
                 ProcessEnemyTurn();
             }
@@ -155,7 +152,7 @@ namespace Masked.Fights
             DrawUntil(current, _atStartOfTurnCards);
 #if UNITY_EDITOR
             UnityEngine.Debug.Log($"{current.Name} has {current.Deck.Count} in deck, {current.Hand.Count} in hand and {current.DiscardPile.Count} in Discard");
-            UnityEngine.Debug.Log($"{current.Name} has {current.HP} HP, {other.Name} has {current.HP} HP");
+            UnityEngine.Debug.Log($"{current.Name} has {current.HP} HP, {other.Name} has {other.HP} HP");
 #endif
 
             _partyInTurn = other;
@@ -238,7 +235,7 @@ namespace Masked.Fights
             defendant.HP -= flooredDamage;
 
 #if UNITY_EDITOR
-            UnityEngine.Debug.Log($"{party.Name} did {flooredDamage} with {cardPlayed.CardName}, leaving them with {party.HP} HP");
+            UnityEngine.Debug.Log($"{party.Name} did {flooredDamage} dmg with {cardPlayed.CardName}, leaving them with {party.HP} HP");
 #endif
 
             return true;

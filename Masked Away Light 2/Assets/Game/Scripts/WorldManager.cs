@@ -71,7 +71,6 @@ namespace Masked.World
         internal async Task UnloadWorld()
         {
             await SceneManager.UnloadSceneAsync(_currentArea);
-            _currentArea = null;
         }
     }
 }
