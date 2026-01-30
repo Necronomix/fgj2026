@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd358e2fdf9130841a2108d2be05df39, type: 3}
+  m_Name: ElementEffectivenessChart
+  m_EditorClassIdentifier: 
+  _elementals:
+  - Element: {fileID: 11400000, guid: 4dd631b3cab32ab4691fdef343586ac7, type: 2}
+    EffectivinessOnAttack:
+    - Element: {fileID: 11400000, guid: 4dd631b3cab32ab4691fdef343586ac7, type: 2}
+      Effectiveness: 1
+    - Element: {fileID: 11400000, guid: faf7dbf416a463543b333cc68fc6f65a, type: 2}
+      Effectiveness: 0.5
+    - Element: {fileID: 11400000, guid: 2cb2d179992d4ef41a0c489c81bad857, type: 2}
+      Effectiveness: 1
+    - Element: {fileID: 11400000, guid: 8e017fd846d68354ebb087f87ccde587, type: 2}
+      Effectiveness: 1
+    - Element: {fileID: 11400000, guid: ffe9a5fde110d154a88e8e4826d1d868, type: 2}
+      Effectiveness: 2
+    - Element: {fileID: 11400000, guid: f0ba28e66db59454b9e84fa10eaffad8, type: 2}
+      Effectiveness: 2
+    - Element: {fileID: 11400000, guid: 0f9bd090292fdaa4591585c9a3eb41d2, type: 2}
+      Effectiveness: 2
+    - Element: {fileID: 11400000, guid: 70689bafa3d4f6440b968c4390aa97ea, type: 2}
+      Effectiveness: 1
+  - Element: {fileID: 11400000, guid: f0ba28e66db59454b9e84fa10eaffad8, type: 2}
+    EffectivinessOnAttack:
+    - Element: {fileID: 11400000, guid: 4dd631b3cab32ab4691fdef343586ac7, type: 2}
+      Effectiveness: 2
+    - Element: {fileID: 11400000, guid: faf7dbf416a463543b333cc68fc6f65a, type: 2}
+      Effectiveness: 0.5
+    - Element: {fileID: 11400000, guid: 2cb2d179992d4ef41a0c489c81bad857, type: 2}
+      Effectiveness: 2
+    - Element: {fileID: 11400000, guid: 8e017fd846d68354ebb087f87ccde587, type: 2}
+      Effectiveness: 0.5
+    - Element: {fileID: 11400000, guid: ffe9a5fde110d154a88e8e4826d1d868, type: 2}
+      Effectiveness: 0.5
+    - Element: {fileID: 11400000, guid: f0ba28e66db59454b9e84fa10eaffad8, type: 2}
+      Effectiveness: 1
+    - Element: {fileID: 11400000, guid: 0f9bd090292fdaa4591585c9a3eb41d2, type: 2}
+      Effectiveness: 1
+    - Element: {fileID: 11400000, guid: 70689bafa3d4f6440b968c4390aa97ea, type: 2}
+      Effectiveness: 1
+  - Element: {fileID: 0}
+    EffectivinessOnAttack: []
+  - Element: {fileID: 0}
+    EffectivinessOnAttack: []
+  - Element: {fileID: 0}
+    EffectivinessOnAttack: []
+  - Element: {fileID: 0}
+    EffectivinessOnAttack: []
+  - Element: {fileID: 0}
+    EffectivinessOnAttack: []
+  - Element: {fileID: 0}
+    EffectivinessOnAttack: []
