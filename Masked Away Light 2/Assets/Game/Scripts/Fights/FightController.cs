@@ -135,7 +135,6 @@ namespace Masked.Fights
 
             if (_player.HP <= 0 || _enemy.HP <= 0)
             {
-                _enemy = null;
                 _winningParty = _player.HP > 0 ? _player : _enemy;
                 return;
             }
