@@ -13,7 +13,7 @@ namespace Masked.Elements
     }
 
     [CreateAssetMenu(fileName = "ElementEffectivenessChart", menuName = "Masked/EffectivenessChart")]
-    internal class ElementalEffectivenessChart : ScriptableObject
+    public class ElementalEffectivenessChart : ScriptableObject
     {
         [SerializeField] private ElementalEffectiveness[] _elementals;
 
