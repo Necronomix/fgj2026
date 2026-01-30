@@ -7,6 +7,7 @@ namespace Masked.Player
         string PlayerName { get; }
 
         void SetPlayerName(string value);
+        void SetPlayerHp(int value);
     }
 
     [Serializable]
@@ -14,6 +15,7 @@ namespace Masked.Player
     {
         public MaskData EquippedMask;
         public string PlayerName;
+        public int CurrentHP;
 
         string IPlayerData.PlayerName => PlayerName;
 
@@ -21,6 +23,12 @@ namespace Masked.Player
         {
             PlayerName = value;
             _changed = true;
+        }
+
+        void IPlayerData.SetPlayerHp(int value)
+        {
+            _changed = CurrentHP != value;
+            CurrentHP = value;
         }
     }
 

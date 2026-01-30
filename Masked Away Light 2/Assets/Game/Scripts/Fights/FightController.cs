@@ -1,4 +1,5 @@
-﻿using Masked.Elements;
+﻿using Cysharp.Threading.Tasks;
+using Masked.Elements;
 using Masked.GameState;
 using Masked.Utils;
 using System.Collections.Generic;
@@ -22,10 +23,13 @@ namespace Masked.Fights
         private EnemyAI _enemyAI;
         private FightParty _partyOutOfTurn;
 
+        private bool _inFight = false;
+        private FightParty _winningParty;
         private GameStateManager _gameStateManager;
 
         public void InitializeFight(FightParty player, FightParty enemy, GameState.GameStateManager gameStateManager)
         {
+            _winningParty = null;
             _gameStateManager = gameStateManager;
             //TODO: player and enemy come with their own decks to fight
             var cards = new List<CardRepresentation>();
@@ -58,6 +62,16 @@ namespace Masked.Fights
             UnityEngine.Debug.Log($"Fight initialized between {_player.Name} and {_enemy.Name}");
 #endif
         }
+
+        public async UniTask<(bool playerWon, int playerHP)> AwaitFight()
+        {
+            _inFight = true;
+
+            await UniTask.WaitUntil(() => _winningParty != null);
+
+            return (_winningParty == _player, _player.HP);
+        }
+
 
         private static List<CardRepresentation> FillCards(FightParty player, List<CardRepresentation> cards)
         {
@@ -97,7 +111,7 @@ namespace Masked.Fights
 
         private void Update()
         {
-            if (_player == null || _enemy == null)
+            if (!_inFight)
             {
                 return;
             }
@@ -121,7 +135,7 @@ namespace Masked.Fights
             if (_player.HP <= 0 || _enemy.HP <= 0)
             {
                 _enemy = null;
-                _gameStateManager.FromFightToWorld();
+                _winningParty = _player.HP > 0 ? _player : _enemy;
                 return;
             }
 

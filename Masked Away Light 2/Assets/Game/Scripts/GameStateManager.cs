@@ -1,7 +1,7 @@
+using Cysharp.Threading.Tasks;
 using Masked.Fights;
 using Masked.Player;
 using Masked.World;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -45,10 +45,10 @@ namespace Masked.GameState
 
             //TODO: UI
 
-            FromMenuToWorld();
+            FromMenuToWorld().Forget();
         }
 
-        public async Task FromMenuToWorld()
+        public async UniTask FromMenuToWorld()
         {
             if (State != State.MainMenu)
             {
@@ -63,7 +63,7 @@ namespace Masked.GameState
             _playerManager.SetPlayerName("NecSimo");
         }
 
-        public async Task FromWorldToFight()
+        public async UniTask FromWorldToFight()
         {
             if (State != State.OverWorld)
             {
@@ -83,8 +83,20 @@ namespace Masked.GameState
                 if (root.TryGetComponent<FightController>(out var controller))
                 {
                     InitializeFightController(controller);
+                    FightTheFight(controller).Forget();
                 }
             }
+        }
+
+        private async UniTask FightTheFight(FightController controller)
+        {
+            var (playerWon, hpAfter) = await controller.AwaitFight();
+            _playerManager.SetPlayerHp(hpAfter);
+
+            //TODO: if player hp == 0, return to town
+
+            //TODO: give player da lootz!
+            await FromFightToWorld();
         }
 
         private void InitializeFightController(FightController controller)
@@ -95,7 +107,7 @@ namespace Masked.GameState
             controller.InitializeFight(player, enemy, this);
         }
 
-        public async Task FromFightToWorld()
+        public async UniTask FromFightToWorld()
         {
             if (State != State.InFight)
             {
@@ -138,7 +150,7 @@ namespace Masked.GameState
             
             if (kb.fKey.wasPressedThisFrame)
             {
-                FromWorldToFight();
+                FromWorldToFight().Forget();
             }
         }
     }

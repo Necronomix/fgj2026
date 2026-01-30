@@ -1,6 +1,6 @@
-﻿using Masked.Utils;
+﻿using Cysharp.Threading.Tasks;
+using Masked.Utils;
 using System.IO;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -51,7 +51,7 @@ namespace Masked.World
             return new Vector2Int(coordinates[0], coordinates[1]);
         }
 
-        public async Task LoadWorld()
+        public async UniTask LoadWorld()
         {
             await SceneManager.LoadSceneAsync(_currentArea, LoadSceneMode.Additive);
             SceneManager.SetActiveScene(SceneManager.GetSceneByName(_currentArea));
@@ -68,7 +68,7 @@ namespace Masked.World
             Instantiate(_worldUiPrefab, Vector3.zero, Quaternion.identity);
         }
 
-        internal async Task UnloadWorld()
+        internal async UniTask UnloadWorld()
         {
             await SceneManager.UnloadSceneAsync(_currentArea);
         }

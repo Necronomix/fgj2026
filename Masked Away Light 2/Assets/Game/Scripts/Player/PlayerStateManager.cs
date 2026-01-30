@@ -34,5 +34,16 @@ namespace Masked.Player
             _data.SetPlayerName(name);
             JsonAccess.UpdateData(_data, PlayerPath);
         }
+
+        internal void SetPlayerHp(int hpAfter)
+        {
+            _data.SetPlayerHp(hpAfter);
+        }
+
+        private void Update()
+        {
+            // Is there risk of out of sync world and other data?
+            JsonAccess.UpdateData(_data, PlayerPath);
+        }
     }
 }
