@@ -101,7 +101,7 @@ namespace Masked.GameState
 
         private void InitializeFightController(FightController controller)
         {
-            var player = new FightParty(_playerManager.PlayerName, damage: 3, hp: _playerManager.Player.HP);
+            var player = new FightParty(_playerManager.PlayerName, damage: _playerManager.Player.Damage, hp: _playerManager.Player.HP);
             var enemy = new FightParty("Enemy", damage: 1, hp: 15);
 
             controller.InitializeFight(player, enemy, this);
