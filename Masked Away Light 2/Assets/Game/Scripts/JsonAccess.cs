@@ -42,7 +42,7 @@ namespace Masked.Utils
             {
                 var asJson = JsonUtility.ToJson(data);
                 File.WriteAllText(path, asJson);
-
+                data.ResetChanged();
 #if UNITY_EDITOR
                 UnityEngine.Debug.Log($"Updated data at {path}");
 #endif
