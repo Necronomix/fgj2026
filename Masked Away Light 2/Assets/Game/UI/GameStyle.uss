@@ -1,0 +1,42 @@
+.unity-label {
+    color: rgba(255, 255, 255, 1);
+    -unity-font-definition: url("Zerove-Regular.ttf");
+}
+
+.unity-button {
+    -unity-font-definition: url("Zerove-Regular.ttf");
+
+    background-image: url("game_button_bg.png");
+    background-color: rgba(0, 0, 0, 0);
+    border-width: 0;
+}
+
+.unity-button:enabled {
+    background-color: rgba(255, 0, 0, 0);
+}
+
+.unity-button:hover:enabled {
+    background-color: rgba(255, 0, 0, 0);
+}
+
+.unity-button:hover {
+    background-color: rgba(255, 0, 0, 0);
+    -unity-background-image-tint-color: #DDDDDD;
+}
+
+.unity-button:active {
+    background-color: rgba(255, 0, 0, 0);
+    -unity-background-image-tint-color: #999999;
+}
+
+/*****************************************************************************/
+
+.game-panel {
+    background-image: url("game_panel.png");
+    background-color: rgba(0, 0, 0, 0);
+    border-width: 0;
+
+    -unity-background-image-tint-color: #222222;
+    margin: 5px;
+    padding: 20px;
+}
