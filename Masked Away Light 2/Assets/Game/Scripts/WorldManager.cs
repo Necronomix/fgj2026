@@ -10,6 +10,14 @@ namespace Masked.World
     {
         private string _currentArea;
         private Vector2Int _currentPosition;
+        public Vector2Int CurrentPosition
+        {
+            get => _currentPosition;
+            set => _currentPosition = value;
+        }
+
+        [SerializeField]
+        private GameObject _playerPrefab;
 
         public string WorldPath => Path.Combine(Application.persistentDataPath, "world.json");
 
@@ -23,8 +31,6 @@ namespace Masked.World
             }, WorldPath);
             UpdateFromData(data);
         }
-
-
 
         private void UpdateFromData(WorldData data)
         {
@@ -45,7 +51,8 @@ namespace Masked.World
         {
             await SceneManager.LoadSceneAsync(_currentArea, LoadSceneMode.Additive);
 
-            //TODO: place by vectors
+            // Spawn player
+            Instantiate(_playerPrefab, new Vector3(_currentPosition.x, 0, _currentPosition.y), Quaternion.identity);
         }
     }
 }
