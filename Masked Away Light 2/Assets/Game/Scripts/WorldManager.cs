@@ -3,6 +3,7 @@ using Masked.Utils;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 namespace Masked.World
 {
@@ -58,14 +59,32 @@ namespace Masked.World
 
             // Spawn player
             var playerObject = Instantiate(_playerPrefab, new Vector3(_currentPosition.x, 0, _currentPosition.y), Quaternion.identity);
-            playerObject.GetComponent<Player.PlayerWalkController>().WorldManager = this;
+            var playerWalkController = playerObject.GetComponent<Player.PlayerWalkController>();
+            playerWalkController.WorldManager = this;
 
             // Spawn camera
             var cameraObject = Instantiate(_cameraPrefab, new Vector3(_currentPosition.x, 0, _currentPosition.y), Quaternion.identity);
             cameraObject.GetComponent<CameraController>().followTarget = playerObject;
 
             // Spawn world UI
-            Instantiate(_worldUiPrefab, Vector3.zero, Quaternion.identity);
+            var worldUiObject = Instantiate(_worldUiPrefab, Vector3.zero, Quaternion.identity);
+            var uiDocument = worldUiObject.GetComponent<UIDocument>();
+            uiDocument.rootVisualElement.Q<Button>("Up").clicked += () =>
+            {
+                playerWalkController.Move(Player.PlayerWalkController.WalkDirection.Up);
+            };
+            uiDocument.rootVisualElement.Q<Button>("Down").clicked += () =>
+            {
+                playerWalkController.Move(Player.PlayerWalkController.WalkDirection.Down);
+            };
+            uiDocument.rootVisualElement.Q<Button>("Left").clicked += () =>
+            {
+                playerWalkController.Move(Player.PlayerWalkController.WalkDirection.Left);
+            };
+            uiDocument.rootVisualElement.Q<Button>("Right").clicked += () =>
+            {
+                playerWalkController.Move(Player.PlayerWalkController.WalkDirection.Right);
+            };
         }
 
         internal async UniTask UnloadWorld()
