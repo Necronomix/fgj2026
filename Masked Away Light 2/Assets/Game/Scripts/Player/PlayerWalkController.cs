@@ -19,6 +19,9 @@ namespace Masked.Player
         public WorldManager WorldManager { get; set; }
 
         private Animator _animator;
+        private Vector3 _previousPosition;
+        [SerializeField]
+        private float _animationSpeedMultiplier = 0.2f;
 
         private static Vector2Int[] _directions = new Vector2Int[]
         {
@@ -69,6 +72,12 @@ namespace Masked.Player
 
             // Update player transform smoothly to move to currentPosition
             transform.position = Vector3.Lerp(transform.position, new Vector3(WorldManager.CurrentPosition.x, 0, WorldManager.CurrentPosition.y), Time.deltaTime * 10);
+
+            // Update animation speed
+            var movementSpeed = (transform.position - _previousPosition).magnitude / Time.deltaTime;
+            _animator.SetFloat("Speed", movementSpeed > 0.1f ? _animationSpeedMultiplier : 0f);
+
+            _previousPosition = transform.position;
         }
     }
 }
