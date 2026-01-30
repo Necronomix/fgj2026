@@ -1,5 +1,7 @@
 ﻿using Masked.Inventory;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Masked.Player
 {
@@ -17,6 +19,7 @@ namespace Masked.Player
         bool PlaceInInventory(int slot, InventoryItemRepresentation item);
         void Unequip(int slot);
         void Equip(int slot);
+        int GetMaskLevel(string id);
     }
 
     [Serializable]
@@ -24,6 +27,7 @@ namespace Masked.Player
     {
         public string EquippedMaskId;
         public InventoryData InventoryData;
+        public List<MaskItem> MaskData;
         public string PlayerName;
         public int CurrentHP;
         public int CurrentLevel;
@@ -52,7 +56,7 @@ namespace Masked.Player
 
         public bool PlaceInInventory(int slot, InventoryItemRepresentation item)
         {
-            if (InventoryData.Inventory.TryGetValue(slot, out var _) || slot >= InventoryData.MaximumSize)
+            if (InventoryData.Inventory.Any((i) => i.Slot == slot) || slot >= InventoryData.MaximumSize)
             {
                 return false;
             }
@@ -71,6 +75,12 @@ namespace Masked.Player
         {
             _changed = true;
             InventoryData.Inventory[slot].Equipped = true;
+        }
+
+        int IPlayerData.GetMaskLevel(string id)
+        {
+            var mask = MaskData.FirstOrDefault(m => m.ItemId == id);
+            return mask == null ? 0 : mask.Level;
         }
     }
 

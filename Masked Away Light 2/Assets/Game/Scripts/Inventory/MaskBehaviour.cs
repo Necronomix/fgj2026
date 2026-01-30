@@ -6,6 +6,6 @@ namespace Masked.Inventory
     {
         [SerializeField] private Deck _deck;
 
-        public Deck Deck => Deck;
+        public Deck Deck => _deck;
     }
 }

@@ -3,18 +3,6 @@ using System.Collections.Generic;
 
 namespace Masked.Inventory
 {
-    [Serializable]
-    public class MaskItem : InventoryItem
-    {
-        public int Level;
-        public int Experience;
-
-        public MaskItem(int level, int experience, InventoryItemRepresentation item) : base(item)
-        {
-            Level = level;
-            Experience = experience;
-        }
-    }
 
     [Serializable]
     public class InventoryItem
@@ -22,10 +10,12 @@ namespace Masked.Inventory
         public string PrefabId;
         public string ItemId;
         public int Amount = 1;
+        public int Slot;
         public bool Equipped = false;
 
         public InventoryItem(InventoryItemRepresentation item)
         {
+            Slot = item.Slot;
             PrefabId = item.PrefabId;
             Amount = item.Amount;
             Equipped = item.Equipped;
@@ -36,7 +26,7 @@ namespace Masked.Inventory
     public class InventoryData
     {
         public int MaximumSize = 20;
-        public Dictionary<int, InventoryItem> Inventory = new();
+        public List<InventoryItem> Inventory = new();
 
 
     }

@@ -104,6 +104,22 @@ namespace Masked.GameState
             var player = new FightParty(_playerManager.PlayerName, damage: _playerManager.Player.Damage, hp: _playerManager.Player.HP);
             var enemy = new FightParty("Enemy", damage: 1, hp: 15);
 
+            player.Deck = new();
+            var (level, deck) = _playerManager.GetDeckByMask();
+
+            foreach (var cardInDeck in deck.Cards)
+            {
+                if (cardInDeck.LevelRequirement > level)
+                {
+                    continue;
+                }
+
+                for (var i = 0; i < cardInDeck.Amount; i++)
+                {
+                    player.Deck.Add(new CardRepresentation(cardInDeck.Card));
+                }
+            }
+
             controller.InitializeFight(player, enemy, this);
         }
 

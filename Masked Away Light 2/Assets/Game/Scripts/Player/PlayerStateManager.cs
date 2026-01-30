@@ -52,21 +52,23 @@ namespace Masked.Player
             _data.Unequip(item.Slot);
         }
 
-        public Deck GetDeckByMask()
+        public (int level, Deck deck) GetDeckByMask()
         {
-            foreach (var (key, item) in _data.InventoryData.Inventory)
+            foreach (var item in _data.InventoryData.Inventory)
             {
                 if (item.ItemId == _data.EquippedMask)
                 {
                     var maskEquipped = _allItems.FirstOrDefault(i => i.Id == item.PrefabId);
                     if (maskEquipped != null && maskEquipped.TryGetComponent<MaskBehaviour>(out var mask))
                     {
-                        return mask.Deck;
+                        var level = _data.GetMaskLevel(item.ItemId);
+
+                        return (level, mask.Deck);
                     }
                 }
             }
 
-            return _defaultDeck;
+            return (1, _defaultDeck);
         }
 
         public List<InventoryItemRepresentation> GetEquippedEquipmentsOfType(string equipmentType)
@@ -90,11 +92,11 @@ namespace Masked.Player
         public Dictionary<int, InventoryItemRepresentation> GetInventory()
         {
             var inventory = new Dictionary<int, InventoryItemRepresentation>();
-            foreach (var (key, item) in _data.InventoryData.Inventory)
+            foreach (var item in _data.InventoryData.Inventory)
             {
                 var inventoryObject = _allItems.FirstOrDefault(i => i.Id == item.PrefabId);
 
-                inventory[key] = new InventoryItemRepresentation(key, item, inventoryObject);
+                inventory[item.Slot] = new InventoryItemRepresentation(item.Slot, item, inventoryObject);
             }
             return inventory;
         }
@@ -107,7 +109,7 @@ namespace Masked.Player
 
         public void ConsumeItem(int slot)
         {
-            _data.InventoryData.Inventory.Remove(slot);
+            _data.InventoryData.Inventory.RemoveAt(slot);
         }
 
         public void SetPlayerName(string name)

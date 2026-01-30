@@ -41,7 +41,6 @@ namespace Masked.Fights
                 }
             }
 
-            cards = FillCards(player, cards);
             FillCards(enemy, cards);
 
             _player = player;
