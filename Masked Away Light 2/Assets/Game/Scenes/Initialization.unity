@@ -246,6 +246,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _worldManager: {fileID: 2126273523}
   _playerManager: {fileID: 2126273524}
+  _menuScene: MainMenu
+  _fightScene: FightScene
   State: 0
 --- !u!114 &2126273523
 MonoBehaviour:
@@ -274,6 +276,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30bb37e8cf7809b46952a5fc23313cb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _allItems:
+  - {fileID: 351276703130618879, guid: 22b1ae2a092abe040bda6485a8846206, type: 3}
+  _levelConfigs: {fileID: 11400000, guid: 92fc098c6ade34145b0a47afd9fed37c, type: 2}
+  _defaultDeck: {fileID: 11400000, guid: 9be21e41d57233c49b462eb775242026, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

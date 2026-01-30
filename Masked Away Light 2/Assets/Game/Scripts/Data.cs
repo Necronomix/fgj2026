@@ -5,6 +5,7 @@ namespace Masked
     public interface IData
     {
         bool Changed { get; }
+        void ResetChanged();
     }
 
     [Serializable]
@@ -13,5 +14,10 @@ namespace Masked
         protected bool _changed;
 
         public bool Changed => _changed;
+
+        void IData.ResetChanged()
+        {
+            _changed = false;
+        }
     }
 }
