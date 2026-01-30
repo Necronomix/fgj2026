@@ -9,5 +9,9 @@ namespace Masked
         [SerializeField] private string _cardName;
         [SerializeField] private ElementPairing _attackPairing;
         [SerializeField] private ElementPairing _defencePairing;
+
+        public string CardName => _cardName;
+        public ElementPairing AttackPairing => _attackPairing;
+        public ElementPairing DefencePairing => _defencePairing;
     }
 }
