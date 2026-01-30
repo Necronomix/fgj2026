@@ -54,6 +54,7 @@ namespace Masked.World
         public async Task LoadWorld()
         {
             await SceneManager.LoadSceneAsync(_currentArea, LoadSceneMode.Additive);
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName(_currentArea));
 
             // Spawn player
             var playerObject = Instantiate(_playerPrefab, new Vector3(_currentPosition.x, 0, _currentPosition.y), Quaternion.identity);
