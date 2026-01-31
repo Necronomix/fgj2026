@@ -210,6 +210,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Manager
       objectReference: {fileID: 0}
+    - target: {fileID: 7654085859442232135, guid: 6f1429328be0cf3418078087683a89a6, type: 3}
+      propertyPath: _gameStateManager
+      value: 
+      objectReference: {fileID: 6508102113970889783}
+    - target: {fileID: 7654085859442232135, guid: 6f1429328be0cf3418078087683a89a6, type: 3}
+      propertyPath: _playerStateManager
+      value: 
+      objectReference: {fileID: 6508102113970889782}
     - target: {fileID: 8090800716388879314, guid: 6f1429328be0cf3418078087683a89a6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -255,6 +263,28 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6f1429328be0cf3418078087683a89a6, type: 3}
+--- !u!114 &6508102113970889782 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1427413937278612753, guid: 6f1429328be0cf3418078087683a89a6, type: 3}
+  m_PrefabInstance: {fileID: 6508102113970889781}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30bb37e8cf7809b46952a5fc23313cb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6508102113970889783 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2324394632309488291, guid: 6f1429328be0cf3418078087683a89a6, type: 3}
+  m_PrefabInstance: {fileID: 6508102113970889781}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28e837c8d1700f94c89de79d27736e11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

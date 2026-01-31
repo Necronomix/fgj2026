@@ -8,9 +8,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1392051777877946008, guid: e240589250223f84288f66864b61ecdd, type: 3}
+      propertyPath: Icon
+      value: 
+      objectReference: {fileID: 21300000, guid: 88f9edd8e2d023746a4f31ed13f52e9c, type: 3}
     - target: {fileID: 6653628504514601615, guid: e240589250223f84288f66864b61ecdd, type: 3}
       propertyPath: m_Name
-      value: MaskPrefab
+      value: Thunder-kin Mask
       objectReference: {fileID: 0}
     - target: {fileID: 9201881361886035230, guid: e240589250223f84288f66864b61ecdd, type: 3}
       propertyPath: m_LocalPosition.x
