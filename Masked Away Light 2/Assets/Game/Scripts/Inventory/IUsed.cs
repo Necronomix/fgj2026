@@ -4,6 +4,6 @@ namespace Masked.Inventory
 {
     public interface IUsed
     {
-         void ItemUsed(InventoryItemRepresentation representation, PlayerStateManager stateManager);
+         void ItemUsed(InventoryItemRepresentation representation, InventoryManager stateManager, PlayerStateManager playerState);
     }
 }

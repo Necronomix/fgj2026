@@ -7,9 +7,9 @@ namespace Masked.Inventory
     {
         [SerializeField] private int _changeOfHP = 1;
 
-        void IUsed.ItemUsed(InventoryItemRepresentation item, PlayerStateManager stateManager)
+        void IUsed.ItemUsed(InventoryItemRepresentation item, InventoryManager stateManager, PlayerStateManager playerState)
         {
-            stateManager.ChangeHPBy(_changeOfHP);
+            playerState.ChangeHPBy(_changeOfHP);
         }
     }
 }

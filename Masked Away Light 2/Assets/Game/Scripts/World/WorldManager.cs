@@ -1,5 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using Masked.GameState;
+using Masked.Inventory;
 using Masked.Player;
 using Masked.Utils;
 using System.IO;
@@ -13,6 +14,7 @@ namespace Masked.World
     {
         [SerializeField] private GameStateManager _gameStateManager;
         [SerializeField] private PlayerStateManager _playerStateManager;
+        [SerializeField] private InventoryManager _inventoryManager;
 
         private string _currentArea;
         private Vector2Int _currentPosition;
@@ -28,9 +30,7 @@ namespace Masked.World
         private GameObject _cameraPrefab;
         [SerializeField]
         private GameObject _worldUiPrefab;
-        [SerializeField]
-        private GameObject _inventoryUiPrefab;
-        private GameObject _inventoryUiObject;
+
 
         public string WorldPath => Path.Combine(Application.persistentDataPath, "world.json");
 
@@ -102,56 +102,14 @@ namespace Masked.World
 
         private void OpenInventory()
         {
-            _inventoryUiObject = Instantiate(_inventoryUiPrefab, Vector3.zero, Quaternion.identity);
-            var uiDocument = _inventoryUiObject.GetComponent<UIDocument>();
-
-            var result = uiDocument.rootVisualElement.Query<Button>(name: "Slot").ToList();
-            var closeButton = uiDocument.rootVisualElement.Q<Button>(name: "CloseButton");
-            closeButton.clicked += () =>
-            {
-                if (_inventoryUiObject)
-                {
-                    GameObject.Destroy(_inventoryUiObject);
-                }
-            }; 
-
-            var inventory =  _playerStateManager.GetInventory();
-
-            var columnLength = 5;
-            for (int row = 0; row < 4; row++) {
-                for (int col = 0; col < columnLength; col++)
-                {
-                    var slot = row * columnLength + col;
-                    var item = result[slot];
-                    var equipped = item.Q<VisualElement>("Equipped");
-                    if (!inventory.TryGetValue(slot, out var representation))
-                    {
-                        equipped.enabledSelf = false;
-                        continue;
-                    }
-                    item.iconImage = Background.FromSprite(representation.Icon);
-
-                    item.clicked += () =>
-                    {
-                        _playerStateManager.UseItemInInventory(representation);
-                    };
-                    
-                    equipped.enabledSelf = representation.Equipped;
-                }
-            }
+            _inventoryManager.OpenInventory();
         }
 
-        private void SlotSelected(int slot)
-        {
-           
-        }
 
         internal async UniTask UnloadWorld()
         {
-            if (_inventoryUiPrefab != null)
-            {
-                GameObject.Destroy(_inventoryUiObject);
-            }
+
+            _inventoryManager.CloseInventory();
             await SceneManager.UnloadSceneAsync(_currentArea);
         }
     }
