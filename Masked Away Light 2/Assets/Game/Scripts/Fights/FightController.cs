@@ -6,13 +6,16 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 namespace Masked.Fights
 {
     internal class FightController : MonoBehaviour
     {
+        [SerializeField] private ElementType[] _elements;
         [SerializeField] private ElementalEffectivenessChart _chart;
         [SerializeField] private Card[] _cards;
+        [SerializeField] private GameObject _fightUIPrefab;
         private int _atStartOfTurnCards = 3;
 
         private FightParty _player;
@@ -26,6 +29,7 @@ namespace Masked.Fights
         private bool _inFight = false;
         private FightParty _winningParty;
         private GameStateManager _gameStateManager;
+        private UIDocument _uiDocument;
 
         public void InitializeFight(FightParty player, FightParty enemy, GameState.GameStateManager gameStateManager)
         {
@@ -57,9 +61,92 @@ namespace Masked.Fights
             DrawUntil(_player, _atStartOfTurnCards);
             DrawUntil(_enemy, _atStartOfTurnCards);
 
+            InitializeFightUI();
+
 #if UNITY_EDITOR
             UnityEngine.Debug.Log($"Fight initialized between {_player.Name} and {_enemy.Name}");
 #endif
+        }
+
+        private void InitializeFightUI()
+        {
+            var ui = GameObject.Instantiate(_fightUIPrefab, Vector3.zero, Quaternion.identity);
+            _uiDocument = ui.GetComponent<UIDocument>();
+
+            Button cardUI, cardUI2, cardUI3;
+            UpdateCardsUI(_uiDocument, out cardUI, out cardUI2, out cardUI3);
+
+            cardUI.clicked += () =>
+            {
+                PlayerSelectedCard(0);
+            };
+            cardUI2.clicked += () =>
+            {
+                PlayerSelectedCard(1);
+            };
+            cardUI3.clicked += () =>
+            {
+                PlayerSelectedCard(2);
+            };
+        }
+
+        private void UpdateCardsUI(UIDocument uiDocument, out Button cardUI, out Button cardUI2, out Button cardUI3)
+        {
+            var firstCard = _player.Hand.FirstOrDefault();
+
+            cardUI = uiDocument.rootVisualElement.Q<Button>("1stCard");
+            SetupCardUI(firstCard, cardUI);
+            var secondCard = _player.Hand.Skip(1).FirstOrDefault();
+
+            cardUI2 = uiDocument.rootVisualElement.Q<Button>("2ndCard");
+            SetupCardUI(secondCard, cardUI2);
+
+
+            var thirdCard = _player.Hand.Skip(2).FirstOrDefault();
+
+            cardUI3 = uiDocument.rootVisualElement.Q<Button>("3rdCard");
+            SetupCardUI(thirdCard, cardUI3);
+        }
+
+        private void SetupCardUI(CardRepresentation card, Button cardUI)
+        {
+            if (card == null)
+            {
+                cardUI.style.display = DisplayStyle.None;
+                return;
+            }
+
+
+            var cardLabel = cardUI.Q<Label>("Name");
+            cardLabel.text = card.CardName;
+
+            var atkIcons = new VisualElement[4];
+            atkIcons[0] = cardUI.Q<VisualElement>("AtkElement1");
+            atkIcons[1] = cardUI.Q<VisualElement>("AtkElement2");
+            atkIcons[2] = cardUI.Q<VisualElement>("AtkElement3");
+            atkIcons[3] = cardUI.Q<VisualElement>("AtkElement4");
+            for (int i = 0; i < atkIcons.Length; i++)
+            {
+                bool shouldShow = i < (int)card.AttackPairing.Effectiveness;
+                var icon = atkIcons[i];
+
+                icon.style.display = shouldShow ? DisplayStyle.Flex : DisplayStyle.None;
+                icon.style.backgroundImage = Background.FromSprite(card.AttackPairing.Element.Icon);
+            }
+
+            var defIcons = new VisualElement[4];
+            defIcons[0] = cardUI.Q<VisualElement>("DefElement1");
+            defIcons[1] = cardUI.Q<VisualElement>("DefElement2");
+            defIcons[2] = cardUI.Q<VisualElement>("DefElement3");
+            defIcons[3] = cardUI.Q<VisualElement>("DefElement4");
+            for (int i = 0; i < defIcons.Length; i++)
+            {
+                bool shouldShow = i < (int)card.DefencePairing.Effectiveness;
+                var icon = defIcons[i];
+
+                icon.style.display = shouldShow ? DisplayStyle.Flex : DisplayStyle.None;
+                icon.style.backgroundImage = Background.FromSprite(card.DefencePairing.Element.Icon);
+            }
         }
 
         public async UniTask<(bool playerWon, int playerHP)> AwaitFight()
@@ -92,13 +179,15 @@ namespace Masked.Fights
             return deck.Shuffle();
         }
 
-        public bool PlayerSelectedCard(CardRepresentation card)
+        public bool PlayerSelectedCard(int index)
         {
-            if (_partyInTurn != _player)
+            if (index >= _player.Hand.Count )
             {
                 return false;
             }
-            if (!_player.Hand.Any(h => h == card))
+
+            var card = _player.Hand[index];
+            if (_partyInTurn != _player)
             {
                 return false;
             }
@@ -122,15 +211,15 @@ namespace Masked.Fights
 
             if (kb.digit1Key.wasPressedThisFrame)
             {
-                PlayerSelectedCard(_player.Hand.First());
+                PlayerSelectedCard(0);
             }
             if (kb.digit2Key.wasPressedThisFrame)
             {
-                PlayerSelectedCard(_player.Hand.Skip(1).First());
+                PlayerSelectedCard(1);
             }
             if (kb.digit3Key.wasPressedThisFrame)
             {
-                PlayerSelectedCard(_player.Hand.Skip(2).First());
+                PlayerSelectedCard(2);
             }
 
             if (_player.HP <= 0 || _enemy.HP <= 0)
@@ -158,6 +247,9 @@ namespace Masked.Fights
             //Reset state
             _playerCard = null;
             HandleEndOfTurn(_player, _enemy);
+
+            Button cardUI, cardUI2, cardUI3;
+            UpdateCardsUI(_uiDocument, out cardUI, out cardUI2, out cardUI3);
         }
 
         private void HandleEndOfTurn(FightParty current, FightParty other)

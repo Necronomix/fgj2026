@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Electric
   m_EditorClassIdentifier: 
   _name: Electric
-  _icon: {fileID: 21300000, guid: 1cf495cc29d3e6a47bb3333883422799, type: 3}
+  _icon: {fileID: 21300000, guid: 4c374074a6d63814c93e315b10bf1080, type: 3}
