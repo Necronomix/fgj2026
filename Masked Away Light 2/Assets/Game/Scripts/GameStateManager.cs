@@ -101,8 +101,13 @@ namespace Masked.GameState
 
         private void InitializeFightController(FightController controller)
         {
-            var player = new FightParty(_playerManager.PlayerName, damage: _playerManager.Player.Damage, hp: _playerManager.Player.HP);
-            var enemy = new FightParty("Enemy", damage: 1, hp: 15);
+            var maxHP = _playerManager.GetMaxHP();
+            var player = new FightParty(
+                _playerManager.PlayerName,
+                damage: _playerManager.Player.Damage,
+                hp: Mathf.Min(maxHP, _playerManager.Player.HP),
+                maxHP: maxHP);
+            var enemy = new FightParty("Enemy", damage: 1, hp: 15, maxHP: 15);
 
             player.Deck = new();
             var (level, deck) = _playerManager.GetDeckByMask();

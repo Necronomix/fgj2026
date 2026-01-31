@@ -101,6 +101,11 @@ namespace Masked.Player
             return inventory;
         }
 
+        public int GetMaxHP()
+        {
+            return _levelConfigs.GetHPForLevel(_data.Level);
+        }
+
         public void ChangeHPBy(int hpChange)
         {
              var maxed = Math.Min(_data.HP + hpChange, _levelConfigs.GetHPForLevel(_data.Level));

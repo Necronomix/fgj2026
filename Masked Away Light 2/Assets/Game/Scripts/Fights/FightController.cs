@@ -38,6 +38,8 @@ namespace Masked.Fights
         {
             player.Visuals = _playerRepresentation;
             enemy.Visuals = _enemyRepresentation;
+            player.HPBarName = "PlayerHP";
+            enemy.HPBarName = "EnemyHP";
 
             _winningParty = null;
             _gameStateManager = gameStateManager;
@@ -94,6 +96,16 @@ namespace Masked.Fights
             {
                 PlayerSelectedCard(2);
             };
+
+            UpdateHP(_player);
+            UpdateHP(_enemy);
+        }
+
+        private void UpdateHP(FightParty player)
+        {
+            var hpBar = _uiDocument.rootVisualElement.Q<ProgressBar>(player.HPBarName);
+            hpBar.value = player.HP / (float)player.MaxHP * 100;
+            hpBar.title = $"{player.HP.ToString()}/{player.MaxHP.ToString()}";
         }
 
         private void UpdateCardsUI(UIDocument uiDocument, out Button cardUI, out Button cardUI2, out Button cardUI3)
@@ -347,7 +359,8 @@ namespace Masked.Fights
 
             await defendant.Visuals.TakeDamage(flooredDamage);
 
-            defendant.HP -= flooredDamage;
+            defendant.HP = Mathf.Max(0, defendant.HP - flooredDamage);
+            UpdateHP(defendant);
 
 #if UNITY_EDITOR
             UnityEngine.Debug.Log($"{party.Name} did {flooredDamage} dmg with {cardPlayed.CardName}, leaving them with {defendant.HP} HP");
