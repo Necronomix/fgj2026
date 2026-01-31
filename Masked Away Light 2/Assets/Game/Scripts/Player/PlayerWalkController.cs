@@ -1,4 +1,5 @@
 using Masked.GameState;
+using Masked.Interact;
 using Masked.World;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -52,17 +53,29 @@ namespace Masked.Player
             var worldDir = new Vector3(dir2D.x, 0f, dir2D.y);
             var origin = transform.position + _rayOriginOffset;
 
-            // Check for obstacles in the direction we want to move
-            if (Physics.Raycast(origin, worldDir.normalized, out var hit, _obstacleCheckDistance, _obstacleLayer))
-            {
-                return;
-            }
-
-            WorldManager.CurrentPosition += dir2D;
             _animator.SetBool("Up", direction == WalkDirection.Up);
             _animator.SetBool("Down", direction == WalkDirection.Down);
             _animator.SetBool("Left", direction == WalkDirection.Left);
             _animator.SetBool("Right", direction == WalkDirection.Right);
+
+            // Raycast without layer mask to detect interactables first
+            if (Physics.Raycast(origin, worldDir.normalized, out var hitInfo, _obstacleCheckDistance))
+            {
+                // Interact with all components implementing IInteractable on the hit object
+                var interactables = hitInfo.collider.GetComponents<IInteractable>();
+                foreach (var interactable in interactables)
+                {
+                    interactable.Interact();
+                }
+
+                // If the hit object's layer is in the obstacle mask, block movement
+                if ((_obstacleLayer.value & (1 << hitInfo.collider.gameObject.layer)) != 0)
+                {
+                    return;
+                }
+            }
+
+            WorldManager.CurrentPosition += dir2D;
         }
 
         void Update()
