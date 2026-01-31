@@ -1,0 +1,95 @@
+pelaajalla oma vahinko
+effecti 1 - 4
+
+Dark
+
+1. Storm of the darkness
+
+Effectiveness: 4
+
+2. Black fireball
+
+Effectiveness: 2
+
+3. Charge
+
+Effectiveness: 1
+
+
+Water
+
+1. Splash
+
+Effectiveness: 2
+
+2. Tidal wave
+
+Effectiveness: 4
+
+3. Water whip
+
+Effectiveness: 1
+
+Light
+
+1. Sun beam 
+
+Effectiveness: 4
+
+2. Ray of light
+
+Effectiveness: 2
+
+3. Flash
+
+Effectiveness: 1
+
+Ice
+
+1. Ice nova
+
+Effectiveness: 3
+
+2. Ice shard
+
+Effectiveness: 2
+
+3. Snow ball
+
+Effectiveness: 1
+
+4. Blizzard
+
+Effectiveness: 4
+
+Ground
+
+1. Ground slam
+
+Effectiveness: 2
+
+2. Earthshake
+
+Effectiveness: 4
+
+3. Punch
+
+Effectiveness: 1
+
+Fire
+
+1. Fire storm
+
+Effectiveness: 4
+
+2. Fire breath
+
+Effectiveness: 2
+
+
+
+
+
+
+
+
