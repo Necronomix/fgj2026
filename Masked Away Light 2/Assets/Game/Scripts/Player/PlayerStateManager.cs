@@ -148,7 +148,7 @@ namespace Masked.Player
             var neededForNextLevel = _levelConfigs.GetExpForNextLevel(_data.Level);
 
             var diff = newExperience + _data.CurrentExperience - neededForNextLevel;
-            if (diff > 0)
+            if (diff > 0 && _data.Level < _levelConfigs.MaxLevel)
             {
                 _data.IncreasePlayerLevel();
                 _data.SetExperience(diff);

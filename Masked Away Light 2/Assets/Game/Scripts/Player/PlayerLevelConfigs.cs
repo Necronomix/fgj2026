@@ -8,6 +8,8 @@ namespace Masked.Player
         [SerializeField] private int[] _hpPerLevel;
         [SerializeField] private int[] _expPerLevel;
 
+        public int MaxLevel =>  Mathf.Min(_hpPerLevel.Length, _expPerLevel.Length);
+
         public int GetHPForLevel(int level)
         {
             if (level <= 0)
