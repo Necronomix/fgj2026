@@ -1,6 +1,11 @@
 using Masked.GameState;
 using Masked.Interact;
+using Masked.Monsters;
 using Masked.World;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.InputSystem;
@@ -76,6 +81,43 @@ namespace Masked.Player
             }
 
             WorldManager.CurrentPosition += dir2D;
+
+            // After moving, check for fight areas at the new position
+            var newWorldPos = new Vector3(WorldManager.CurrentPosition.x, 0f, WorldManager.CurrentPosition.y);
+            CheckForFightAreasAtPosition(newWorldPos);
+        }
+
+        private void CheckForFightAreasAtPosition(Vector3 worldPos)
+        {
+            var center = worldPos + new Vector3(0f, 0.5f, 0f);
+            var halfExtents = new Vector3(0.45f, 0.5f, 0.45f);
+
+            var encounterChance = 0f;
+            var allPossibleEncounters = new List<MonsterConfig>();
+
+            var hits = Physics.OverlapBox(center, halfExtents);
+            foreach (var col in hits)
+            {
+                // Only consider BoxColliders
+                if (!(col is BoxCollider)) continue;
+
+                var fightComp = col.GetComponent<FightArea>();
+                if (fightComp == null) continue;
+
+                encounterChance = Mathf.Max(encounterChance, fightComp.EncounterChance);
+
+                foreach (var monster in fightComp.PossibleEncounters)
+                {
+                    allPossibleEncounters.Add(monster);
+                }
+            }
+
+            if (UnityEngine.Random.Range(0.0f, 1.0f) <= encounterChance && allPossibleEncounters.Count > 0)
+            {
+                MonsterConfig selectedMonster = allPossibleEncounters[UnityEngine.Random.Range(0, allPossibleEncounters.Count)];
+                Debug.Log($"A wild {selectedMonster.Name} appears!");
+                // TODO: how to start fight against selectedMonster?
+            }
         }
 
         void Update()
