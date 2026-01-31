@@ -98,9 +98,15 @@ namespace Masked.GameState
             var (playerWon, hpAfter) = await controller.AwaitFight(ct);
             _playerManager.SetPlayerHp(hpAfter);
 
-            //TODO: if player hp == 0, return to town
+            if (hpAfter <= 0)
+            {
+                _worldManager.ResetPlayerToTown();
+                _playerManager.FullHeal();
+                await FromFightToWorld();
+                return;
+            }
 
-            var expGained = 5;
+            var expGained = monster.Experience;
             if (playerWon)
             {
                 var rewards = monster.LootPool.LootsWithChance();
@@ -111,7 +117,7 @@ namespace Masked.GameState
             //TODO: level up animation
             if (experienceGained == ExperienceGivingResult.LevelUp)
             {
-                _playerManager.SetPlayerHp(_playerManager.GetMaxHP());
+                _playerManager.FullHeal();
             }
 
             await FromFightToWorld();
@@ -160,6 +166,7 @@ namespace Masked.GameState
                 return;
             }
 
+            _worldManager.TriggerSave();
             await SceneManager.UnloadSceneAsync(_fightScene);
             
             await _worldManager.LoadWorld();

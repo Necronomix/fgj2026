@@ -70,6 +70,9 @@ namespace Masked.Fights
             DrawUntil(_player, _atStartOfTurnCards);
             DrawUntil(_enemy, _atStartOfTurnCards);
 
+            var random = _enemy.Hand[UnityEngine.Random.Range(0, _enemy.Hand.Count)];
+            _enemy.CurrentDefence = random.DefencePairing;
+
             InitializeFightUI();
 
 #if UNITY_EDITOR
@@ -350,6 +353,23 @@ namespace Masked.Fights
             party.Hand.Clear();
         }
 
+        public float GetDefenceMultiplier(int defence)
+        {
+            switch (defence)
+            {
+                case 0:
+                    return 0;
+                case 1:
+                    return 0.25f;
+                case 2:
+                    return 0.4f;
+                case 3:
+                    return 0.6f;
+                default: // 4 and other weird scenarios
+                    return 0.75f;
+            }
+        }
+
         public async UniTask<bool> UseCardForTurn(FightParty party, FightParty defendant, CardRepresentation cardPlayed, CancellationToken ct)
         {
             //TODO: show damage
@@ -365,10 +385,9 @@ namespace Masked.Fights
 
             var damage = cardPlayed.AttackPairing.Effectiveness * party.Damage * Random.Range(0.8f, 1.2f);
 
-            var currentDefenceEffect = defendant.CurrentDefence == null ? 1 : defendant.CurrentDefence.Effectiveness /
-                _chart.GetMultiplier(cardPlayed.AttackPairing.Element, defendant.CurrentDefence.Element);
+            var currentDefenceEffect = 1 - (defendant.CurrentDefence == null ? 0 : GetDefenceMultiplier((int)defendant.CurrentDefence.Effectiveness));
 
-            var reducedDamage = damage * 1 - currentDefenceEffect;
+            var reducedDamage = damage * currentDefenceEffect * _chart.GetMultiplier(cardPlayed.AttackPairing.Element, defendant.CurrentDefence.Element);
             var flooredDamage = Mathf.FloorToInt(reducedDamage);
 
             party.Visuals.AttackVisual();

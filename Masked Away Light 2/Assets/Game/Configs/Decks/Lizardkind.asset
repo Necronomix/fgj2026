@@ -10,15 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc68240e58396ad4993c667473c82b10, type: 3}
-  m_Name: Default deck
+  m_Name: Lizardkind
   m_EditorClassIdentifier: 
   _cards:
-  - Card: {fileID: 11400000, guid: d827e5b5ce339a2488a817ab7c4d3605, type: 2}
+  - Card: {fileID: 11400000, guid: 8cc382eea76e1c447b56e8e53c50a98b, type: 2}
+    Amount: 2
+    LevelRequirement: 1
+  - Card: {fileID: 11400000, guid: 49677e0228145d945b897bd7daa2ee79, type: 2}
     Amount: 3
     LevelRequirement: 1
   - Card: {fileID: 11400000, guid: 232ae111dc8863c42aa1ff75803e33b9, type: 2}
-    Amount: 2
+    Amount: 4
     LevelRequirement: 1
-  - Card: {fileID: 11400000, guid: 4c6a2fb12f1ee9046a7c69c9d96f5166, type: 2}
+  - Card: {fileID: 11400000, guid: 219b1d0924bdf9d4c998cefb5d6a972f, type: 2}
     Amount: 3
     LevelRequirement: 1

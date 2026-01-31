@@ -1,7 +1,7 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <ui:VisualElement style="flex-grow: 1;">
         <ui:VisualElement name="EmptySpace" style="flex-grow: 1;" />
-        <ui:VisualElement name="BottomPanel" class="game-panel" style="bottom: auto; top: auto; flex-direction: row-reverse;">
+        <ui:VisualElement name="BottomPanel" style="bottom: auto; top: auto; flex-direction: row-reverse;">
             <ui:VisualElement name="MovementButtons" style="flex-grow: 1;">
                 <ui:VisualElement name="ButtonRow" style="flex-grow: 1; justify-content: center; align-items: center;">
                     <ui:Button text="^" name="Up" double-click-selects-word="false" triple-click-selects-line="false" focusable="false" />
@@ -14,7 +14,7 @@
                     <ui:Button text="v" name="Down" focusable="false" double-click-selects-word="false" triple-click-selects-line="false" />
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:Button text="Inventory" name="Inventory" style="white-space: pre; -unity-text-align: middle-center; padding-top: 10px; padding-bottom: 10px;" />
+            <ui:Button name="Inventory" icon-image="project://database/Assets/Game/UI/backpack_icon.png?fileID=21300000&amp;guid=d5c8337e5d33f314f910f464d2856320&amp;type=3#backpack_icon" style="white-space: pre; -unity-text-align: middle-center; padding-top: 10px; padding-bottom: 10px; max-width: 80px; max-height: 80px;" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

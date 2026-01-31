@@ -10,15 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc68240e58396ad4993c667473c82b10, type: 3}
-  m_Name: Default deck
+  m_Name: Boulder
   m_EditorClassIdentifier: 
   _cards:
-  - Card: {fileID: 11400000, guid: d827e5b5ce339a2488a817ab7c4d3605, type: 2}
-    Amount: 3
+  - Card: {fileID: 11400000, guid: 4d1fcef9ed92271479ec12b25c29983b, type: 2}
+    Amount: 8
     LevelRequirement: 1
-  - Card: {fileID: 11400000, guid: 232ae111dc8863c42aa1ff75803e33b9, type: 2}
-    Amount: 2
-    LevelRequirement: 1
-  - Card: {fileID: 11400000, guid: 4c6a2fb12f1ee9046a7c69c9d96f5166, type: 2}
-    Amount: 3
+  - Card: {fileID: 11400000, guid: 03f6fac425e544844b5dbbad24426994, type: 2}
+    Amount: 8
     LevelRequirement: 1

@@ -7,5 +7,10 @@ namespace Masked.World
     {
         public string Location;
         public int[] Coordinates;
+
+        internal void FlagChanged()
+        {
+            _changed = true;
+        }
     }
 }
