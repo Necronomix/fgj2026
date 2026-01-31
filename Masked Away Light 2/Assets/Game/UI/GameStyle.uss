@@ -6,7 +6,7 @@
 .unity-button {
     -unity-font-definition: url("Zerove-Regular.ttf");
 
-    background-image: url("game_button_bg.png");
+    background-image: url("stone_frame_2.png");
     background-color: rgba(0, 0, 0, 0);
     border-width: 0;
 }
@@ -32,11 +32,11 @@
 /*****************************************************************************/
 
 .game-panel {
-    background-image: url("game_panel.png");
-    background-color: rgba(0, 0, 0, 0);
+    background-image: url("wood_frame_white_bg.png");
+    /*background-color: rgba(0, 0, 0, 0);*/
     border-width: 0;
 
-    -unity-background-image-tint-color: #222222;
+    /*-unity-background-image-tint-color: #222222;*/
     margin: 5px;
     padding: 20px;
 }
