@@ -1,5 +1,6 @@
 using Masked.Inventory;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Masked.Interact
 {
@@ -14,7 +15,10 @@ namespace Masked.Interact
                 _itemOnGround
             });
 
-            Debug.Log("Picked up item: " + gameObject.name);
+            var uiDocument = FindFirstObjectByType<UIDocument>();
+            uiDocument.rootVisualElement.Q<VisualElement>("ChatMessage").visible = true;
+            uiDocument.rootVisualElement.Q<Label>("ChatLabel").text = "You picked up " + _itemOnGround.Name + ".";
+
             Destroy(gameObject);
         }
 

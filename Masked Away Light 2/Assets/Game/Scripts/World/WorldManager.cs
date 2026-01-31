@@ -107,6 +107,10 @@ namespace Masked.World
             {
                 playerWalkController.Move(Player.PlayerWalkController.WalkDirection.Right);
             };
+            uiDocument.rootVisualElement.Q<Button>("ChatClose").clicked += () =>
+            {
+                FindFirstObjectByType<UIDocument>().rootVisualElement.Q<VisualElement>("ChatMessage").visible = false;
+            };
         }
 
         private void OpenInventory()

@@ -4177,6 +4177,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cfbc748f6506a243a3516281193679f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _message: 'Mysterious Man: My fire mask gives me the ability to control flames.
+    All masks get their powers from the eight elements.'
 --- !u!1 &392600385
 GameObject:
   m_ObjectHideFlags: 0
@@ -5036,6 +5038,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cfbc748f6506a243a3516281193679f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _message: 'Guard: Be careful. It is dangerous out there.'
 --- !u!65 &443594643
 BoxCollider:
   m_ObjectHideFlags: 0

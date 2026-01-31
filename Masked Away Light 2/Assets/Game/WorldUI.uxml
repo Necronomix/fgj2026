@@ -1,6 +1,11 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <ui:VisualElement style="flex-grow: 1;">
-        <ui:VisualElement name="EmptySpace" style="flex-grow: 1;" />
+        <ui:VisualElement name="EmptySpace" style="flex-grow: 1;">
+            <ui:VisualElement name="ChatMessage" class="game-panel" style="flex-grow: 1; flex-direction: column; justify-content: space-between; align-content: stretch; align-self: auto; display: flex; visibility: hidden;">
+                <ui:Label text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam id tincidunt massa. Nam dignissim lacinia ligula, non finibus orci molestie et. Curabitur ut posuere libero. Morbi posuere metus in aliquam efficitur." double-click-selects-word="false" triple-click-selects-line="false" name="ChatLabel" style="flex-wrap: wrap; overflow: visible; flex-direction: column; white-space: normal; padding-top: 8px; padding-right: 4px; padding-bottom: 8px; padding-left: 8px; font-size: 20px;" />
+                <ui:Button text="Close" name="ChatClose" style="align-self: center; align-items: auto; justify-content: flex-start; min-width: 100px;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
         <ui:VisualElement name="BottomPanel" style="bottom: auto; top: auto; flex-direction: row-reverse;">
             <ui:VisualElement name="MovementButtons" style="flex-grow: 1;">
                 <ui:VisualElement name="ButtonRow" style="flex-grow: 1; justify-content: center; align-items: center;">

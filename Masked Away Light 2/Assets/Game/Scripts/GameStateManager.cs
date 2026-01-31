@@ -8,6 +8,7 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 namespace Masked.GameState
 {
@@ -103,6 +104,9 @@ namespace Masked.GameState
                 _worldManager.ResetPlayerToTown();
                 _playerManager.FullHeal();
                 await FromFightToWorld();
+                var uiDocument = FindFirstObjectByType<UIDocument>();
+                uiDocument.rootVisualElement.Q<VisualElement>("ChatMessage").visible = true;
+                uiDocument.rootVisualElement.Q<Label>("ChatLabel").text = "You fainted and woke up back in town.";
                 return;
             }
 
