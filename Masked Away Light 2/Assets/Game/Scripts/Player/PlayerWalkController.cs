@@ -1,11 +1,10 @@
+using Cysharp.Threading.Tasks;
 using Masked.GameState;
 using Masked.Interact;
+using Masked.Inventory;
 using Masked.Monsters;
 using Masked.World;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.InputSystem;
@@ -73,7 +72,12 @@ namespace Masked.Player
                 var interactables = hitInfo.collider.GetComponents<IInteractable>();
                 foreach (var interactable in interactables)
                 {
-                    interactable.Interact();
+                    // Its getting late
+                    var inventory = GameObject.FindAnyObjectByType<InventoryManager>();
+                    if (inventory != null)
+                    {
+                        interactable.Interact(inventory);
+                    }
                 }
 
                 // If the hit object's layer is in the obstacle mask, block movement
@@ -119,7 +123,7 @@ namespace Masked.Player
             {
                 MonsterConfig selectedMonster = allPossibleEncounters[UnityEngine.Random.Range(0, allPossibleEncounters.Count)];
                 Debug.Log($"A wild {selectedMonster.Name} appears!");
-                // TODO: how to start fight against selectedMonster?
+                GameStateManager.Instance.FromWorldToFight(selectedMonster).Forget();
             }
         }
 
