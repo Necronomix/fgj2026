@@ -95,8 +95,10 @@ namespace Masked.GameState
 
             //TODO: if player hp == 0, return to town
 
+            var expGained = 5;
             //TODO: give player da lootz!
-            var experienceGained = _playerManager.GiveExperience(5);
+            var experienceGained = _playerManager.GiveExperience(expGained);
+            _playerManager.GiveMaskExperience(expGained);
             //TODO: level up animation
             if (experienceGained == ExperienceGivingResult.LevelUp)
             {

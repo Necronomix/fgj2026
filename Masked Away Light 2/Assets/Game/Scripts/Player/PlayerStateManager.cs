@@ -158,5 +158,29 @@ namespace Masked.Player
             _data.SetExperience(newExperience + _data.CurrentExperience);
             return ExperienceGivingResult.GaveExp;
         }
+
+        internal void GiveMaskExperience(int expGained)
+        {
+            if (string.IsNullOrEmpty(_data.EquippedMask))
+            {
+                return;
+            }
+
+            var mask = _data.Masks.FirstOrDefault(m => m.ItemId == _data.EquippedMask);
+            if (mask == null)
+            {
+                return;
+            }
+
+            var neededForNextLevel = _levelConfigs.GetExpForNextMaskLevel(mask.LevelData.Level);
+            var diff = mask.LevelData.Experience + expGained - neededForNextLevel;
+            if (diff > 0 && mask.LevelData.Level < _levelConfigs.MaxMaskLevel)
+            {
+                _data.IncreaseMaskLevel(mask.ItemId);
+                _data.SetMaskExperience(mask.ItemId, diff);
+            }
+
+            _data.SetMaskExperience(mask.ItemId, expGained + mask.LevelData.Experience);
+        }
     }
 }
