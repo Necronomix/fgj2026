@@ -50,6 +50,8 @@ MonoBehaviour:
   _playerManager: {fileID: 1427413937278612753}
   _menuScene: MainMenu
   _fightScene: FightScene
+  _monsters:
+  - {fileID: 11400000, guid: 4390d714bb1845748bfea75c95382797, type: 2}
   State: 0
 --- !u!114 &7654085859442232135
 MonoBehaviour:
