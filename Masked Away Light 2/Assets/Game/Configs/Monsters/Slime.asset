@@ -16,6 +16,7 @@ MonoBehaviour:
   _deck: {fileID: 11400000, guid: b58684663f13bb54fbc186c24334d607, type: 2}
   _hp: 16
   _damage: 2
+  _experience: 5
   _sprites:
   - {fileID: 21300000, guid: 5850556b4c04bf94cb8f61343049e7fe, type: 3}
   - {fileID: 21300000, guid: 475af7ff1d353ee4bb8bf25237b626f9, type: 3}

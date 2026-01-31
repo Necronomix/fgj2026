@@ -100,7 +100,7 @@ namespace Masked.GameState
 
             //TODO: if player hp == 0, return to town
 
-            var expGained = 5;
+            var expGained = monster.Experience;
             if (playerWon)
             {
                 var rewards = monster.LootPool.LootsWithChance();
