@@ -23,6 +23,14 @@ namespace Masked.Player
         [SerializeField]
         private float _animationSpeedMultiplier = 0.2f;
 
+        // Raycast settings to detect obstacles and prevent movement
+        [SerializeField]
+        private LayerMask _obstacleLayer;
+        [SerializeField]
+        private float _obstacleCheckDistance = 0.9f;
+        [SerializeField]
+        private Vector3 _rayOriginOffset = new Vector3(0f, 0.5f, 0f);
+
         private static Vector2Int[] _directions = new Vector2Int[]
         {
             new Vector2Int(0, 1),   // Up
@@ -40,7 +48,17 @@ namespace Masked.Player
 
         public void Move(WalkDirection direction)
         {
-            WorldManager.CurrentPosition += _directions[(int)direction];
+            var dir2D = _directions[(int)direction];
+            var worldDir = new Vector3(dir2D.x, 0f, dir2D.y);
+            var origin = transform.position + _rayOriginOffset;
+
+            // Check for obstacles in the direction we want to move
+            if (Physics.Raycast(origin, worldDir.normalized, out var hit, _obstacleCheckDistance, _obstacleLayer))
+            {
+                return;
+            }
+
+            WorldManager.CurrentPosition += dir2D;
             _animator.SetBool("Up", direction == WalkDirection.Up);
             _animator.SetBool("Down", direction == WalkDirection.Down);
             _animator.SetBool("Left", direction == WalkDirection.Left);
