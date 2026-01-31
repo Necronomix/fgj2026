@@ -1,7 +1,9 @@
 using Cysharp.Threading.Tasks;
 using Masked.Fights;
+using Masked.Monsters;
 using Masked.Player;
 using Masked.World;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -22,6 +24,7 @@ namespace Masked.GameState
         [SerializeField] private PlayerStateManager _playerManager;
         [SerializeField] private string _menuScene = "MainMenu";
         [SerializeField] private string _fightScene = "FightScene";
+        [SerializeField] private MonsterConfig[] _monsters;
 
 
         public static GameStateManager Instance;
@@ -83,14 +86,14 @@ namespace Masked.GameState
                 if (root.TryGetComponent<FightController>(out var controller))
                 {
                     InitializeFightController(controller);
-                    FightTheFight(controller).Forget();
+                    FightTheFight(controller, destroyCancellationToken).Forget();
                 }
             }
         }
 
-        private async UniTask FightTheFight(FightController controller)
+        private async UniTask FightTheFight(FightController controller, CancellationToken ct)
         {
-            var (playerWon, hpAfter) = await controller.AwaitFight();
+            var (playerWon, hpAfter) = await controller.AwaitFight(ct);
             _playerManager.SetPlayerHp(hpAfter);
 
             //TODO: if player hp == 0, return to town
@@ -116,7 +119,10 @@ namespace Masked.GameState
                 damage: _playerManager.Player.Damage,
                 hp: Mathf.Min(maxHP, _playerManager.Player.HP),
                 maxHP: maxHP);
-            var enemy = new FightParty("Enemy", damage: 1, hp: 15, maxHP: 15);
+
+            var enemyMonster = _monsters[UnityEngine.Random.Range(0, _monsters.Length)];
+
+            var enemy = new FightParty(enemyMonster.Name, damage: enemyMonster.Damage, hp: enemyMonster.HP, maxHP: enemyMonster.HP);
 
             player.Deck = new();
             var (level, deck) = _playerManager.GetDeckByMask();
@@ -135,6 +141,7 @@ namespace Masked.GameState
             }
 
             controller.InitializeFight(player, enemy, this);
+            enemy.Visuals.SetSprite(enemyMonster.Sprites);
         }
 
         public async UniTask FromFightToWorld()

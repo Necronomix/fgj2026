@@ -178,6 +178,7 @@ namespace Masked.Player
             {
                 _data.IncreaseMaskLevel(mask.ItemId);
                 _data.SetMaskExperience(mask.ItemId, diff);
+                return;
             }
 
             _data.SetMaskExperience(mask.ItemId, expGained + mask.LevelData.Experience);

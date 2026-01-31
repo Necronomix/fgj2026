@@ -168,13 +168,15 @@ namespace Masked.Fights
             }
         }
 
-        public async UniTask<(bool playerWon, int playerHP)> AwaitFight()
+        public async UniTask<(bool playerWon, int playerHP)> AwaitFight(CancellationToken ct)
         {
             _inFight = true;
 
-            await UniTask.WaitUntil(() => _winningParty != null);
+            await UniTask.WaitUntil(() => _winningParty != null, cancellationToken: ct);
 
             _inFight = false;
+
+            await UniTask.WaitForSeconds(0.5f, cancellationToken: ct);
 
             return (_winningParty == _player, _player.HP);
         }
@@ -369,10 +371,21 @@ namespace Masked.Fights
             var reducedDamage = damage * 1 - currentDefenceEffect;
             var flooredDamage = Mathf.FloorToInt(reducedDamage);
 
+            party.Visuals.AttackVisual();
+
             await defendant.Visuals.TakeDamage(flooredDamage);
+
+            party.Visuals.ResetVisual();
 
             defendant.HP = Mathf.Max(0, defendant.HP - flooredDamage);
             UpdateHP(defendant);
+            if (defendant.HP <= 0)
+            {
+                defendant.Visuals.DeadVisual();
+            }
+
+            // Breath
+            await UniTask.WaitForSeconds(0.5f, cancellationToken: ct);
 
 #if UNITY_EDITOR
             UnityEngine.Debug.Log($"{party.Name} did {flooredDamage} dmg with {cardPlayed.CardName}, leaving them with {defendant.HP} HP");
