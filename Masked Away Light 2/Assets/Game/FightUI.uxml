@@ -1,6 +1,9 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <ui:VisualElement style="flex-grow: 1;">
-        <ui:VisualElement name="EmptySpace" style="flex-grow: 1;" />
+        <ui:VisualElement name="EmptySpace" style="flex-grow: 1;">
+            <ui:ProgressBar value="100" title="20" name="PlayerHP" class="green-progress" style="align-items: stretch; justify-content: flex-start; align-content: flex-start; align-self: flex-end; position: absolute; bottom: 15%; right: 15px; background-size: 100% 100%; min-width: 150px;" />
+            <ui:ProgressBar value="100" title="20" name="EnemyHP" class="green-progress" style="align-items: stretch; justify-content: flex-start; align-content: flex-start; align-self: flex-end; position: absolute; bottom: auto; right: auto; background-size: 100% 100%; min-width: 150px; top: 15%; left: 5%;" />
+        </ui:VisualElement>
         <ui:VisualElement name="BottomPanel" class="game-panel" style="bottom: auto; top: auto;">
             <ui:VisualElement name="FightButtons" style="flex-grow: 1;">
                 <ui:VisualElement name="ButtonRow" style="flex-grow: 1; align-items: auto; flex-direction: row; justify-content: space-evenly; align-self: stretch;">

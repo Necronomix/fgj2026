@@ -14,11 +14,12 @@ namespace Masked.Fights
         public int MaxHP;
         public FighterVisualRepresentation Visuals;
 
-        public FightParty(string name, int damage, int hp)
+        public FightParty(string name, int damage, int hp, int maxHP)
         {
             Name = name;
             Damage = damage;
             HP = hp;
+            MaxHP = maxHP;
 
             Deck = new List<CardRepresentation>();
             DiscardPile = new List<CardRepresentation>();
@@ -26,5 +27,6 @@ namespace Masked.Fights
         }
 
         public float Damage { get; internal set; }
+        public string HPBarName { get; internal set; }
     }
 }

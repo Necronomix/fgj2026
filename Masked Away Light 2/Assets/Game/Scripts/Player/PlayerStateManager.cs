@@ -8,6 +8,12 @@ using UnityEngine;
 
 namespace Masked.Player
 {
+    public enum ExperienceGivingResult
+    {
+        GaveExp,
+        LevelUp
+    }
+
     public class PlayerStateManager : MonoBehaviour
     {
         [SerializeField] private InventoryItemBehaviour[] _allItems;
@@ -28,7 +34,10 @@ namespace Masked.Player
             var data = JsonAccess.FetchOrCreateJson(new PlayerData
             {
                 PlayerName = "Unown",
-                CurrentLevel = 1,
+                CurrentLevel = new LevelData
+                {
+                    Level = 1
+                },
                 CurrentHP = _levelConfigs.GetHPForLevel(1)
             }, PlayerPath);
 
@@ -101,6 +110,11 @@ namespace Masked.Player
             return inventory;
         }
 
+        public int GetMaxHP()
+        {
+            return _levelConfigs.GetHPForLevel(_data.Level);
+        }
+
         public void ChangeHPBy(int hpChange)
         {
              var maxed = Math.Min(_data.HP + hpChange, _levelConfigs.GetHPForLevel(_data.Level));
@@ -127,6 +141,46 @@ namespace Masked.Player
         {
             // Is there risk of out of sync world and other data?
             JsonAccess.UpdateData(_data, PlayerPath);
+        }
+
+        public ExperienceGivingResult GiveExperience(int newExperience)
+        {
+            var neededForNextLevel = _levelConfigs.GetExpForNextLevel(_data.Level);
+
+            var diff = newExperience + _data.CurrentExperience - neededForNextLevel;
+            if (diff > 0 && _data.Level < _levelConfigs.MaxLevel)
+            {
+                _data.IncreasePlayerLevel();
+                _data.SetExperience(diff);
+                return ExperienceGivingResult.LevelUp;
+            }
+
+            _data.SetExperience(newExperience + _data.CurrentExperience);
+            return ExperienceGivingResult.GaveExp;
+        }
+
+        internal void GiveMaskExperience(int expGained)
+        {
+            if (string.IsNullOrEmpty(_data.EquippedMask))
+            {
+                return;
+            }
+
+            var mask = _data.Masks.FirstOrDefault(m => m.ItemId == _data.EquippedMask);
+            if (mask == null)
+            {
+                return;
+            }
+
+            var neededForNextLevel = _levelConfigs.GetExpForNextMaskLevel(mask.LevelData.Level);
+            var diff = mask.LevelData.Experience + expGained - neededForNextLevel;
+            if (diff > 0 && mask.LevelData.Level < _levelConfigs.MaxMaskLevel)
+            {
+                _data.IncreaseMaskLevel(mask.ItemId);
+                _data.SetMaskExperience(mask.ItemId, diff);
+            }
+
+            _data.SetMaskExperience(mask.ItemId, expGained + mask.LevelData.Experience);
         }
     }
 }

@@ -30,6 +30,7 @@ namespace Masked.Fights
         private FightParty _partyOutOfTurn;
 
         private bool _inFight = false;
+        private bool _processingTurn = false;
         private FightParty _winningParty;
         private GameStateManager _gameStateManager;
         private UIDocument _uiDocument;
@@ -38,6 +39,8 @@ namespace Masked.Fights
         {
             player.Visuals = _playerRepresentation;
             enemy.Visuals = _enemyRepresentation;
+            player.HPBarName = "PlayerHP";
+            enemy.HPBarName = "EnemyHP";
 
             _winningParty = null;
             _gameStateManager = gameStateManager;
@@ -94,6 +97,16 @@ namespace Masked.Fights
             {
                 PlayerSelectedCard(2);
             };
+
+            UpdateHP(_player);
+            UpdateHP(_enemy);
+        }
+
+        private void UpdateHP(FightParty player)
+        {
+            var hpBar = _uiDocument.rootVisualElement.Q<ProgressBar>(player.HPBarName);
+            hpBar.value = player.HP / (float)player.MaxHP * 100;
+            hpBar.title = $"{player.HP.ToString()}/{player.MaxHP.ToString()}";
         }
 
         private void UpdateCardsUI(UIDocument uiDocument, out Button cardUI, out Button cardUI2, out Button cardUI3)
@@ -234,11 +247,18 @@ namespace Masked.Fights
                 return;
             }
 
+            if (_processingTurn)
+            {
+                return;
+            }
+
             if (_partyInTurn == _player && _playerCard != null)
             {
+                _processingTurn = true;
                 ProcessPlayerTurn(destroyCancellationToken).Forget();
             } else if (_partyInTurn == _enemy)
             {
+                _processingTurn = true;
                 ProcessEnemyTurn(destroyCancellationToken).Forget();
             }
         }
@@ -247,6 +267,7 @@ namespace Masked.Fights
         {
             if (!await UseCardForTurn(_player, _enemy, _playerCard, ct))
             {
+                _processingTurn = false;
                 return;
             }
 
@@ -256,6 +277,7 @@ namespace Masked.Fights
 
             Button cardUI, cardUI2, cardUI3;
             UpdateCardsUI(_uiDocument, out cardUI, out cardUI2, out cardUI3);
+            _processingTurn = false;
         }
 
         private void HandleEndOfTurn(FightParty current, FightParty other)
@@ -312,10 +334,12 @@ namespace Masked.Fights
             var wasUsed = await UseCardForTurn(_enemy, _player, card, ct);
             if (!wasUsed)
             {
+                _processingTurn = false;
                 return;
             }
 
             HandleEndOfTurn(_enemy, _player);
+            _processingTurn = false;
         }
 
         private void ClearHandEndOfTurn(FightParty party)
@@ -347,7 +371,8 @@ namespace Masked.Fights
 
             await defendant.Visuals.TakeDamage(flooredDamage);
 
-            defendant.HP -= flooredDamage;
+            defendant.HP = Mathf.Max(0, defendant.HP - flooredDamage);
+            UpdateHP(defendant);
 
 #if UNITY_EDITOR
             UnityEngine.Debug.Log($"{party.Name} did {flooredDamage} dmg with {cardPlayed.CardName}, leaving them with {defendant.HP} HP");

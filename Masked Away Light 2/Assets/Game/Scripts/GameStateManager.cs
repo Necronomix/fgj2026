@@ -95,14 +95,28 @@ namespace Masked.GameState
 
             //TODO: if player hp == 0, return to town
 
+            var expGained = 5;
             //TODO: give player da lootz!
+            var experienceGained = _playerManager.GiveExperience(expGained);
+            _playerManager.GiveMaskExperience(expGained);
+            //TODO: level up animation
+            if (experienceGained == ExperienceGivingResult.LevelUp)
+            {
+                _playerManager.SetPlayerHp(_playerManager.GetMaxHP());
+            }
+
             await FromFightToWorld();
         }
 
         private void InitializeFightController(FightController controller)
         {
-            var player = new FightParty(_playerManager.PlayerName, damage: _playerManager.Player.Damage, hp: _playerManager.Player.HP);
-            var enemy = new FightParty("Enemy", damage: 1, hp: 15);
+            var maxHP = _playerManager.GetMaxHP();
+            var player = new FightParty(
+                _playerManager.PlayerName,
+                damage: _playerManager.Player.Damage,
+                hp: Mathf.Min(maxHP, _playerManager.Player.HP),
+                maxHP: maxHP);
+            var enemy = new FightParty("Enemy", damage: 1, hp: 15, maxHP: 15);
 
             player.Deck = new();
             var (level, deck) = _playerManager.GetDeckByMask();

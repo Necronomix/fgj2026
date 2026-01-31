@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Masked.Player;
+using System;
 
 namespace Masked.Inventory
 {
@@ -6,14 +7,16 @@ namespace Masked.Inventory
     public class MaskItem
     {
         public string ItemId;
-        public int Level;
-        public int Experience;
+        public LevelData LevelData;
 
         public MaskItem(int level, int experience, string itemId)
         {
             ItemId = itemId;
-            Level = level;
-            Experience = experience;
+            LevelData = new LevelData
+            {
+                Level = level,
+                Experience = experience
+            };
         }
     }
 }
