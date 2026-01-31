@@ -124,7 +124,6 @@ namespace Masked.Inventory
             return list;
         }
 
-        //TODO: call this from inventory
         public void UseItemInInventory(InventoryItemRepresentation selected)
         {
             selected.TriggerUsed(this, _playerStateManager);

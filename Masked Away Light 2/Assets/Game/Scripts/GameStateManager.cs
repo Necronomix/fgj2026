@@ -68,7 +68,7 @@ namespace Masked.GameState
             _playerManager.SetPlayerName("NecSimo");
         }
 
-        public async UniTask FromWorldToFight()
+        public async UniTask FromWorldToFight(MonsterConfig monsterSelected)
         {
             if (State != State.OverWorld)
             {
@@ -87,8 +87,8 @@ namespace Masked.GameState
             {
                 if (root.TryGetComponent<FightController>(out var controller))
                 {
-                    var enemyMonster = InitializeFightController(controller);
-                    FightTheFight(controller, enemyMonster, destroyCancellationToken).Forget();
+                    InitializeFightController(controller, monsterSelected);
+                    FightTheFight(controller, monsterSelected, destroyCancellationToken).Forget();
                 }
             }
         }
@@ -98,9 +98,15 @@ namespace Masked.GameState
             var (playerWon, hpAfter) = await controller.AwaitFight(ct);
             _playerManager.SetPlayerHp(hpAfter);
 
-            //TODO: if player hp == 0, return to town
+            if (hpAfter <= 0)
+            {
+                _worldManager.ResetPlayerToTown();
+                _playerManager.FullHeal();
+                await FromFightToWorld();
+                return;
+            }
 
-            var expGained = 5;
+            var expGained = monster.Experience;
             if (playerWon)
             {
                 var rewards = monster.LootPool.LootsWithChance();
@@ -111,13 +117,13 @@ namespace Masked.GameState
             //TODO: level up animation
             if (experienceGained == ExperienceGivingResult.LevelUp)
             {
-                _playerManager.SetPlayerHp(_playerManager.GetMaxHP());
+                _playerManager.FullHeal();
             }
 
             await FromFightToWorld();
         }
 
-        private MonsterConfig InitializeFightController(FightController controller)
+        private MonsterConfig InitializeFightController(FightController controller, MonsterConfig monsterSelected)
         {
             var maxHP = _playerManager.GetMaxHP();
             var player = new FightParty(
@@ -126,9 +132,11 @@ namespace Masked.GameState
                 hp: Mathf.Min(maxHP, _playerManager.Player.HP),
                 maxHP: maxHP);
 
-            var enemyMonster = _monsters[UnityEngine.Random.Range(0, _monsters.Length)];
-
-            var enemy = new FightParty(enemyMonster.Name, damage: enemyMonster.Damage, hp: enemyMonster.HP, maxHP: enemyMonster.HP);
+            var enemy = new FightParty(
+                monsterSelected.Name,
+                damage: monsterSelected.Damage,
+                hp: monsterSelected.HP,
+                maxHP: monsterSelected.HP);
 
             player.Deck = new();
             var (level, deck) = _inventoryManager.GetDeckByMask();
@@ -147,8 +155,8 @@ namespace Masked.GameState
             }
 
             controller.InitializeFight(player, enemy, this);
-            enemy.Visuals.SetSprite(enemyMonster.Sprites);
-            return enemyMonster;
+            enemy.Visuals.SetSprite(monsterSelected.Sprites);
+            return monsterSelected;
         }
 
         public async UniTask FromFightToWorld()
@@ -158,6 +166,7 @@ namespace Masked.GameState
                 return;
             }
 
+            _worldManager.TriggerSave();
             await SceneManager.UnloadSceneAsync(_fightScene);
             
             await _worldManager.LoadWorld();
@@ -194,7 +203,7 @@ namespace Masked.GameState
             
             if (kb.fKey.wasPressedThisFrame)
             {
-                FromWorldToFight().Forget();
+                FromWorldToFight(_monsters[UnityEngine.Random.Range(0, _monsters.Length)]).Forget();
             }
         }
     }

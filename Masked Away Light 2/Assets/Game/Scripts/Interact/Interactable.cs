@@ -2,6 +2,6 @@ namespace Masked.Interact
 {
     interface IInteractable
     {
-        void Interact();
+        void Interact(Inventory.InventoryManager inventory);
     }
 }
