@@ -125,5 +125,10 @@ namespace Masked.Player
         {
             return _data;
         }
+
+        internal void FullHeal()
+        {
+            SetPlayerHp(GetMaxHP());
+        }
     }
 }

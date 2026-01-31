@@ -21,7 +21,12 @@ namespace Masked.World
         public Vector2Int CurrentPosition
         {
             get => _currentPosition;
-            set => _currentPosition = value;
+            set
+            {
+                _currentPosition = value;
+                _data.Coordinates = new int[] { value.x, value.y };
+                _data.FlagChanged();
+            }
         }
 
         [SerializeField]
@@ -30,19 +35,23 @@ namespace Masked.World
         private GameObject _cameraPrefab;
         [SerializeField]
         private GameObject _worldUiPrefab;
-
+        private WorldData _data;
 
         public string WorldPath => Path.Combine(Application.persistentDataPath, "world.json");
 
         private void Awake()
         {
-            WorldData data = null;
-            data = JsonAccess.FetchOrCreateJson(new WorldData
+            _data = JsonAccess.FetchOrCreateJson(new WorldData
             {
                 Coordinates = new[] { 0, 0 },
                 Location = "City"
             }, WorldPath);
-            UpdateFromData(data);
+            UpdateFromData(_data);
+        }
+
+        public void TriggerSave()
+        {
+            JsonAccess.UpdateData(_data, WorldPath);
         }
 
         private void UpdateFromData(WorldData data)
@@ -111,6 +120,14 @@ namespace Masked.World
 
             _inventoryManager.CloseInventory();
             await SceneManager.UnloadSceneAsync(_currentArea);
+        }
+
+        internal void ResetPlayerToTown()
+        {
+            _data.Location = "City";
+            _data.Coordinates = new[] { 0, 0 };
+            _data.FlagChanged();
+            UpdateFromData(_data);
         }
     }
 }
