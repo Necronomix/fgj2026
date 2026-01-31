@@ -5,6 +5,13 @@ using System.Linq;
 
 namespace Masked.Player
 {
+    [Serializable]
+    public class LevelData
+    {
+        public int Level;
+        public int Experience;
+    }
+
     public interface IPlayerData : IData
     {
         string PlayerName { get; }
@@ -13,6 +20,7 @@ namespace Masked.Player
         int Damage { get; }
         InventoryData InventoryData { get; }
         string EquippedMask { get; }
+        int CurrentExperience { get; }
 
         void SetPlayerName(string value);
         void SetPlayerHp(int value);
@@ -20,6 +28,8 @@ namespace Masked.Player
         void Unequip(int slot);
         void Equip(int slot);
         int GetMaskLevel(string id);
+        void IncreasePlayerLevel();
+        void SetExperience(int diff);
     }
 
     [Serializable]
@@ -30,7 +40,7 @@ namespace Masked.Player
         public List<MaskItem> MaskData;
         public string PlayerName;
         public int CurrentHP;
-        public int CurrentLevel;
+        public LevelData CurrentLevel;
 
         string IPlayerData.EquippedMask => EquippedMaskId;
         string IPlayerData.PlayerName => PlayerName;
@@ -40,7 +50,9 @@ namespace Masked.Player
 
         int IPlayerData.Damage => 3;
 
-        int IPlayerData.Level => CurrentLevel;
+        int IPlayerData.Level => CurrentLevel.Level;
+
+        int IPlayerData.CurrentExperience => CurrentLevel.Experience;
 
         public void SetPlayerName(string value)
         {
@@ -81,6 +93,18 @@ namespace Masked.Player
         {
             var mask = MaskData.FirstOrDefault(m => m.ItemId == id);
             return mask == null ? 0 : mask.Level;
+        }
+
+        void IPlayerData.IncreasePlayerLevel()
+        {
+            _changed = true;
+            CurrentLevel.Level++;
+        }
+
+        void IPlayerData.SetExperience(int newAmount)
+        {
+            _changed = true;
+            CurrentLevel.Experience = newAmount;
         }
     }
 

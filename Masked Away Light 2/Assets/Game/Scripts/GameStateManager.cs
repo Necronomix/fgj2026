@@ -96,6 +96,13 @@ namespace Masked.GameState
             //TODO: if player hp == 0, return to town
 
             //TODO: give player da lootz!
+            var experienceGained = _playerManager.GiveExperience(5);
+            //TODO: level up animation
+            if (experienceGained == ExperienceGivingResult.LevelUp)
+            {
+                _playerManager.SetPlayerHp(_playerManager.GetMaxHP());
+            }
+
             await FromFightToWorld();
         }
 

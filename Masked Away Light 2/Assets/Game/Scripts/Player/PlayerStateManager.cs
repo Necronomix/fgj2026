@@ -8,6 +8,12 @@ using UnityEngine;
 
 namespace Masked.Player
 {
+    public enum ExperienceGivingResult
+    {
+        GaveExp,
+        LevelUp
+    }
+
     public class PlayerStateManager : MonoBehaviour
     {
         [SerializeField] private InventoryItemBehaviour[] _allItems;
@@ -28,7 +34,10 @@ namespace Masked.Player
             var data = JsonAccess.FetchOrCreateJson(new PlayerData
             {
                 PlayerName = "Unown",
-                CurrentLevel = 1,
+                CurrentLevel = new LevelData
+                {
+                    Level = 1
+                },
                 CurrentHP = _levelConfigs.GetHPForLevel(1)
             }, PlayerPath);
 
@@ -132,6 +141,22 @@ namespace Masked.Player
         {
             // Is there risk of out of sync world and other data?
             JsonAccess.UpdateData(_data, PlayerPath);
+        }
+
+        public ExperienceGivingResult GiveExperience(int newExperience)
+        {
+            var neededForNextLevel = _levelConfigs.GetExpForNextLevel(_data.Level);
+
+            var diff = newExperience + _data.CurrentExperience - neededForNextLevel;
+            if (diff > 0)
+            {
+                _data.IncreasePlayerLevel();
+                _data.SetExperience(diff);
+                return ExperienceGivingResult.LevelUp;
+            }
+
+            _data.SetExperience(newExperience + _data.CurrentExperience);
+            return ExperienceGivingResult.GaveExp;
         }
     }
 }
