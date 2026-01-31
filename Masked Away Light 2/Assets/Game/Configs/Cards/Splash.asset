@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7053f5ef41ec0964a985309900ad9d85, type: 3}
-  m_Name: Squirt
+  m_Name: Splash
   m_EditorClassIdentifier: 
-  _cardName: Squirt
+  _cardName: Splash
   _attackPairing:
     Element: {fileID: 11400000, guid: faf7dbf416a463543b333cc68fc6f65a, type: 2}
     Effectiveness: 1
