@@ -36,6 +36,8 @@ namespace Masked.Player
         [SerializeField]
         private Vector3 _rayOriginOffset = new Vector3(0f, 0.5f, 0f);
 
+        private int fightCooldown = 5;
+
         private static Vector2Int[] _directions = new Vector2Int[]
         {
             new Vector2Int(0, 1),   // Up
@@ -89,6 +91,12 @@ namespace Masked.Player
 
             WorldManager.CurrentPosition += dir2D;
 
+            // Prevent fighting too frequently
+            if (fightCooldown > 0)
+            {
+                fightCooldown--;
+                return;
+            }
             // After moving, check for fight areas at the new position
             var newWorldPos = new Vector3(WorldManager.CurrentPosition.x, 0f, WorldManager.CurrentPosition.y);
             CheckForFightAreasAtPosition(newWorldPos);
