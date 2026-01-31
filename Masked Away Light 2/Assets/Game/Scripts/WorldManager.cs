@@ -1,4 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
+using Masked.GameState;
+using Masked.Player;
 using Masked.Utils;
 using System.IO;
 using UnityEngine;
@@ -9,6 +11,9 @@ namespace Masked.World
 {
     public class WorldManager : MonoBehaviour
     {
+        [SerializeField] private GameStateManager _gameStateManager;
+        [SerializeField] private PlayerStateManager _playerStateManager;
+
         private string _currentArea;
         private Vector2Int _currentPosition;
         public Vector2Int CurrentPosition
@@ -23,6 +28,8 @@ namespace Masked.World
         private GameObject _cameraPrefab;
         [SerializeField]
         private GameObject _worldUiPrefab;
+        [SerializeField]
+        private GameObject _inventoryUiPrefab;
 
         public string WorldPath => Path.Combine(Application.persistentDataPath, "world.json");
 
@@ -69,6 +76,11 @@ namespace Masked.World
             // Spawn world UI
             var worldUiObject = Instantiate(_worldUiPrefab, Vector3.zero, Quaternion.identity);
             var uiDocument = worldUiObject.GetComponent<UIDocument>();
+
+            uiDocument.rootVisualElement.Q<Button>("Inventory").clicked += () =>
+            {
+                OpenInventory();
+            };
             uiDocument.rootVisualElement.Q<Button>("Up").clicked += () =>
             {
                 playerWalkController.Move(Player.PlayerWalkController.WalkDirection.Up);
@@ -85,6 +97,31 @@ namespace Masked.World
             {
                 playerWalkController.Move(Player.PlayerWalkController.WalkDirection.Right);
             };
+        }
+
+        private void OpenInventory()
+        {
+            var inventoryUiObject = Instantiate(_inventoryUiPrefab, Vector3.zero, Quaternion.identity);
+            var uiDocument = inventoryUiObject.GetComponent<UIDocument>();
+
+            var result = uiDocument.rootVisualElement.Query<Button>(name: "Slot").ToList();
+            var inventory =  _playerStateManager.GetInventory();
+
+            var columnLength = 5;
+            for (int row = 0; row < 4; row++) {
+                for (int col = 0; col < columnLength; col++)
+                {
+                    var slot = row * columnLength + col;
+                    var item = result[slot];
+                    if (!inventory.TryGetValue(slot, out var representation))
+                    {
+                        continue;
+                    }
+                    item.iconImage = Background.FromSprite(representation.Icon);
+                    var equipped = item.Q<VisualElement>("Equipped");
+                    equipped.visible = representation.Equipped;
+                }
+            }
         }
 
         internal async UniTask UnloadWorld()
