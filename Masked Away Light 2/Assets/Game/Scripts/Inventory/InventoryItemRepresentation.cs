@@ -27,14 +27,14 @@ namespace Masked.Inventory
             _behaviour = behaviour;
         }
 
-        public void TriggerUsed(PlayerStateManager manager)
+        public void TriggerUsed(InventoryManager manager, PlayerStateManager playerManager)
         {
             var used = _behaviour.GetComponents<IUsed>();
             //TODO: do we need prio?
 
             foreach (var component in used)
             {
-                component.ItemUsed(this, manager);
+                component.ItemUsed(this, manager, playerManager);
             }
         }
     }

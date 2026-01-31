@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using Masked.Fights;
+using Masked.Inventory;
 using Masked.Monsters;
 using Masked.Player;
 using Masked.World;
@@ -22,6 +23,7 @@ namespace Masked.GameState
     {
         [SerializeField] private WorldManager _worldManager;
         [SerializeField] private PlayerStateManager _playerManager;
+        [SerializeField] private InventoryManager _inventoryManager;
         [SerializeField] private string _menuScene = "MainMenu";
         [SerializeField] private string _fightScene = "FightScene";
         [SerializeField] private MonsterConfig[] _monsters;
@@ -102,7 +104,7 @@ namespace Masked.GameState
             if (playerWon)
             {
                 var rewards = monster.LootPool.LootsWithChance();
-                _playerManager.GiveItems(rewards);
+                _inventoryManager.GiveItems(rewards);
             }
             var experienceGained = _playerManager.GiveExperience(expGained);
             _playerManager.GiveMaskExperience(expGained);
@@ -129,7 +131,7 @@ namespace Masked.GameState
             var enemy = new FightParty(enemyMonster.Name, damage: enemyMonster.Damage, hp: enemyMonster.HP, maxHP: enemyMonster.HP);
 
             player.Deck = new();
-            var (level, deck) = _playerManager.GetDeckByMask();
+            var (level, deck) = _inventoryManager.GetDeckByMask();
 
             foreach (var cardInDeck in deck.Cards)
             {

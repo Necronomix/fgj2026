@@ -80,7 +80,7 @@ namespace Masked.Player
                 return false;
             }
 
-            InventoryData.Inventory[slot] = item;
+            InventoryData.Inventory.Add(item);
             return true;
         }
 

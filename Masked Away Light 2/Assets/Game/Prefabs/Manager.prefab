@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2324394632309488291}
   - component: {fileID: 7654085859442232135}
   - component: {fileID: 1427413937278612753}
+  - component: {fileID: 4988959195680713725}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -48,6 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _worldManager: {fileID: 7654085859442232135}
   _playerManager: {fileID: 1427413937278612753}
+  _inventoryManager: {fileID: 4988959195680713725}
   _menuScene: MainMenu
   _fightScene: FightScene
   _monsters:
@@ -65,12 +67,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3550f0b72787ce44a6a5a67dded43e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gameStateManager: {fileID: 0}
-  _playerStateManager: {fileID: 0}
+  _gameStateManager: {fileID: 2324394632309488291}
+  _playerStateManager: {fileID: 1427413937278612753}
+  _inventoryManager: {fileID: 4988959195680713725}
   _playerPrefab: {fileID: 4495521739122801050, guid: 3f8b3463ecae1304e88bb34584fdb0f4, type: 3}
   _cameraPrefab: {fileID: 4949055172284991289, guid: 4daf9b1fa2bb1ae4c94aca5e5dbe6466, type: 3}
   _worldUiPrefab: {fileID: 562288221512388106, guid: a2ade766efecdbb4190c83c70e6689ba, type: 3}
-  _inventoryUiPrefab: {fileID: 562288221512388106, guid: cf4d234465f91dc419b33c4b9da81020, type: 3}
 --- !u!114 &1427413937278612753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83,9 +85,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30bb37e8cf7809b46952a5fc23313cb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _levelConfigs: {fileID: 11400000, guid: 92fc098c6ade34145b0a47afd9fed37c, type: 2}
+--- !u!114 &4988959195680713725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4021134142554711663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 154e6bde36174664bb213726160790c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   _allItems:
   - {fileID: 351276703130618879, guid: 22b1ae2a092abe040bda6485a8846206, type: 3}
   - {fileID: 3220135476408534186, guid: 6339157fe08542344ace9f046ea69d82, type: 3}
   - {fileID: 3220135476408534186, guid: d12c1db53a1951d4db26ef626fd66be7, type: 3}
-  _levelConfigs: {fileID: 11400000, guid: 92fc098c6ade34145b0a47afd9fed37c, type: 2}
+  _playerStateManager: {fileID: 1427413937278612753}
+  _inventoryUiPrefab: {fileID: 562288221512388106, guid: cf4d234465f91dc419b33c4b9da81020, type: 3}
   _defaultDeck: {fileID: 11400000, guid: 9be21e41d57233c49b462eb775242026, type: 2}

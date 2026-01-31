@@ -7,7 +7,7 @@ namespace Masked.Inventory
     {
         public string EquipmentType;
 
-        void IUsed.ItemUsed(InventoryItemRepresentation representation, PlayerStateManager stateManager)
+        void IUsed.ItemUsed(InventoryItemRepresentation representation, InventoryManager stateManager, PlayerStateManager playerManager)
         {
             var others = stateManager.GetEquippedEquipmentsOfType(EquipmentType);
             foreach (var other in others)
