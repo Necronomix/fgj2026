@@ -33,6 +33,7 @@ namespace Masked.Player
         void SetExperience(int diff);
         void IncreaseMaskLevel(string id);
         void SetMaskExperience(string id, int experience);
+        void SetMaskUsed(string itemId);
     }
 
     [Serializable]
@@ -85,13 +86,23 @@ namespace Masked.Player
         void IPlayerData.Unequip(int slot)
         {
             _changed = true;
-            InventoryData.Inventory[slot].Equipped = false;
+            var inventoryItem = InventoryData.Inventory.FirstOrDefault(i => i.Slot == slot);
+
+            if (inventoryItem != null)
+            {
+                inventoryItem.Equipped = false;
+            }
         }
 
         void IPlayerData.Equip(int slot)
         {
             _changed = true;
-            InventoryData.Inventory[slot].Equipped = true;
+            var inventoryItem = InventoryData.Inventory.FirstOrDefault(i => i.Slot == slot);
+
+            if (inventoryItem != null)
+            {
+                inventoryItem.Equipped = true;
+            }
         }
 
         int IPlayerData.GetMaskLevel(string id)
@@ -133,6 +144,11 @@ namespace Masked.Player
         {
             _changed = true;
             CurrentLevel.Experience = newAmount;
+        }
+
+        void IPlayerData.SetMaskUsed(string itemId)
+        {
+            EquippedMaskId = itemId;
         }
     }
 

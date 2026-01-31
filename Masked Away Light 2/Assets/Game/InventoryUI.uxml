@@ -1,7 +1,7 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <ui:VisualElement style="flex-grow: 1;">
         <ui:VisualElement name="EmptySpace" style="flex-grow: 1; justify-content: flex-start; align-items: auto;" />
-        <ui:VisualElement name="BottomPanel" class="game-panel" style="bottom: auto; top: auto; flex-direction: row-reverse;">
+        <ui:VisualElement name="BottomPanel" class="game-panel" style="bottom: auto; top: auto; flex-direction: row;">
             <ui:VisualElement name="Slots" style="flex-grow: 1;">
                 <ui:VisualElement name="ButtonRow" style="flex-grow: 1; align-items: center; flex-direction: row; justify-content: center; bottom: 15%;">
                     <ui:Button name="Slot" focusable="false" double-click-selects-word="false" triple-click-selects-line="false" style="min-width: 50px; min-height: 50px; max-width: 50px; max-height: 50px;">
@@ -17,7 +17,7 @@
                         <ui:VisualElement name="Equipped" style="flex-grow: 1; align-self: flex-end; align-items: flex-start; background-image: url(&quot;project://database/Assets/Game/UI/UnityDefaultRuntimeTheme.tss?fileID=-3753015318093942961&amp;guid=2fa267aead44d024b8a2f15cd10b9aaa&amp;type=3#checkmark&quot;); min-width: 5px; min-height: 5px; max-width: 5px; max-height: 5px; top: -30%; right: -30%;" />
                     </ui:Button>
                     <ui:Button name="Slot" focusable="false" double-click-selects-word="false" triple-click-selects-line="false" style="min-width: 50px; min-height: 50px; max-width: 50px; max-height: 50px;">
-                        <ui:VisualElement name="Equipped" style="flex-grow: 1; align-self: flex-end; align-items: flex-start; background-image: url(&quot;project://database/Assets/Game/UI/UnityDefaultRuntimeTheme.tss?fileID=-3753015318093942961&amp;guid=2fa267aead44d024b8a2f15cd10b9aaa&amp;type=3#checkmark&quot;); min-width: 5px; min-height: 5px; max-width: 5px; max-height: 5px; top: -30%; right: -30%;" />
+                        <ui:VisualElement name="Equipped" enabled="true" style="flex-grow: 1; align-self: flex-end; align-items: flex-start; background-image: url(&quot;project://database/Assets/Game/UI/UnityDefaultRuntimeTheme.tss?fileID=-3753015318093942961&amp;guid=2fa267aead44d024b8a2f15cd10b9aaa&amp;type=3#checkmark&quot;); min-width: 5px; min-height: 5px; max-width: 5px; max-height: 5px; top: -30%; right: -30%;" />
                     </ui:Button>
                 </ui:VisualElement>
                 <ui:VisualElement name="ButtonRow" style="flex-grow: 1; align-items: center; flex-direction: row; justify-content: center; bottom: 15%;">
@@ -72,6 +72,7 @@
                     </ui:Button>
                 </ui:VisualElement>
             </ui:VisualElement>
+            <ui:Button text="X&#10;" name="CloseButton" style="top: -15%; right: 25%; max-width: 35px; max-height: 35px; min-width: 35px; min-height: 35px; left: 0%;" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

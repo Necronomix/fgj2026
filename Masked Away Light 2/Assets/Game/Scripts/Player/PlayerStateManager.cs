@@ -50,9 +50,13 @@ namespace Masked.Player
             selected.TriggerUsed(this);
         }
 
-        public void EquipItem(InventoryItemRepresentation item)
+        public void EquipItem(InventoryItemRepresentation item, bool isMask)
         {
             _data.Equip(item.Slot);
+            if (isMask)
+            {
+                _data.SetMaskUsed(item.ItemId);
+            }
         }
 
 

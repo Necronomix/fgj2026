@@ -15,7 +15,8 @@ namespace Masked.Inventory
                 stateManager.Unequip(other);
             }
 
-            stateManager.EquipItem(representation);
+            var isMask = EquipmentType == "Mask";
+            stateManager.EquipItem(representation, isMask);
         }
     }
 }
