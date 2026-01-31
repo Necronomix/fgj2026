@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Dark
   m_EditorClassIdentifier: 
   _name: Dark
-  _icon: {fileID: 21300000, guid: 1cf495cc29d3e6a47bb3333883422799, type: 3}
+  _icon: {fileID: 1041380098, guid: 17c6cb0834923a841802bf8fa8e86865, type: 3}
