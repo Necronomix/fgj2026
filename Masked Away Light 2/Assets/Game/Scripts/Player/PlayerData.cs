@@ -25,7 +25,7 @@ namespace Masked.Player
 
         void SetPlayerName(string value);
         void SetPlayerHp(int value);
-        bool PlaceInInventory(int slot, InventoryItemRepresentation item);
+        bool PlaceInInventory(int slot, InventoryItem item);
         void Unequip(int slot);
         void Equip(int slot);
         int GetMaskLevel(string id);
@@ -34,6 +34,7 @@ namespace Masked.Player
         void IncreaseMaskLevel(string id);
         void SetMaskExperience(string id, int experience);
         void SetMaskUsed(string itemId);
+        bool TryGetFirstFreeSlot(out int slot);
     }
 
     [Serializable]
@@ -72,14 +73,14 @@ namespace Masked.Player
             CurrentHP = value;
         }
 
-        public bool PlaceInInventory(int slot, InventoryItemRepresentation item)
+        public bool PlaceInInventory(int slot, InventoryItem item)
         {
             if (InventoryData.Inventory.Any((i) => i.Slot == slot) || slot >= InventoryData.MaximumSize)
             {
                 return false;
             }
 
-            InventoryData.Inventory[slot] = new InventoryItem(item);
+            InventoryData.Inventory[slot] = item;
             return true;
         }
 
@@ -149,6 +150,22 @@ namespace Masked.Player
         void IPlayerData.SetMaskUsed(string itemId)
         {
             EquippedMaskId = itemId;
+        }
+
+        bool IPlayerData.TryGetFirstFreeSlot(out int slot)
+        {
+            for (int i = 0; i < InventoryData.MaximumSize; i++)
+            {
+                var inventoryItem = InventoryData.Inventory.FirstOrDefault(item => item.Slot == i);
+
+                if (inventoryItem == null)
+                {
+                    slot = i;
+                    return true;
+                }
+            }
+            slot = -1;
+            return false;
         }
     }
 

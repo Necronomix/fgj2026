@@ -85,13 +85,13 @@ namespace Masked.GameState
             {
                 if (root.TryGetComponent<FightController>(out var controller))
                 {
-                    InitializeFightController(controller);
-                    FightTheFight(controller, destroyCancellationToken).Forget();
+                    var enemyMonster = InitializeFightController(controller);
+                    FightTheFight(controller, enemyMonster, destroyCancellationToken).Forget();
                 }
             }
         }
 
-        private async UniTask FightTheFight(FightController controller, CancellationToken ct)
+        private async UniTask FightTheFight(FightController controller, MonsterConfig monster, CancellationToken ct)
         {
             var (playerWon, hpAfter) = await controller.AwaitFight(ct);
             _playerManager.SetPlayerHp(hpAfter);
@@ -99,7 +99,11 @@ namespace Masked.GameState
             //TODO: if player hp == 0, return to town
 
             var expGained = 5;
-            //TODO: give player da lootz!
+            if (playerWon)
+            {
+                var rewards = monster.LootPool.LootsWithChance();
+                _playerManager.GiveItems(rewards);
+            }
             var experienceGained = _playerManager.GiveExperience(expGained);
             _playerManager.GiveMaskExperience(expGained);
             //TODO: level up animation
@@ -111,7 +115,7 @@ namespace Masked.GameState
             await FromFightToWorld();
         }
 
-        private void InitializeFightController(FightController controller)
+        private MonsterConfig InitializeFightController(FightController controller)
         {
             var maxHP = _playerManager.GetMaxHP();
             var player = new FightParty(
@@ -142,6 +146,7 @@ namespace Masked.GameState
 
             controller.InitializeFight(player, enemy, this);
             enemy.Visuals.SetSprite(enemyMonster.Sprites);
+            return enemyMonster;
         }
 
         public async UniTask FromFightToWorld()

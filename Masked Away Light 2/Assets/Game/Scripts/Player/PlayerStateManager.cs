@@ -131,9 +131,14 @@ namespace Masked.Player
             _data.SetPlayerHp(maxed);
         }
 
-        public void ConsumeItem(int slot)
+        public void ConsumeItem(string itemId)
         {
-            _data.InventoryData.Inventory.RemoveAt(slot);
+            var consumed = _data.InventoryData.Inventory.FirstOrDefault(f => f.ItemId == itemId);
+            if (consumed != null)
+            {
+                _data.InventoryData.Inventory.Remove(consumed);
+            }
+            
         }
 
         public void SetPlayerName(string name)
@@ -192,6 +197,17 @@ namespace Masked.Player
             }
 
             _data.SetMaskExperience(mask.ItemId, expGained + mask.LevelData.Experience);
+        }
+
+        internal void GiveItems(List<InventoryItemBehaviour> rewards)
+        {
+            foreach (var item in rewards)
+            {
+                if (_data.TryGetFirstFreeSlot(out var slot))
+                {
+                    _data.PlaceInInventory(slot, new InventoryItem(item.Id, Guid.NewGuid().ToString(), slot));
+                }
+            }
         }
     }
 }

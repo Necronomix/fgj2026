@@ -21,3 +21,4 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 19d48f7fb6775ca44915ee1f00966901, type: 3}
   - {fileID: 21300000, guid: 5947b571d7e454841aff16607fa120ab, type: 3}
   - {fileID: 21300000, guid: 844c62be8ec82554489ec76b8e10657c, type: 3}
+  _lootPool: {fileID: 11400000, guid: 09e565f01b7dcac4db6b71967fd8ebd8, type: 2}
