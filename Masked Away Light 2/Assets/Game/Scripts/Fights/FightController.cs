@@ -4,6 +4,7 @@ using Masked.GameState;
 using Masked.Utils;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
@@ -16,6 +17,8 @@ namespace Masked.Fights
         [SerializeField] private ElementalEffectivenessChart _chart;
         [SerializeField] private Card[] _cards;
         [SerializeField] private GameObject _fightUIPrefab;
+        [SerializeField] private FighterVisualRepresentation _playerRepresentation;
+        [SerializeField] private FighterVisualRepresentation _enemyRepresentation;
         private int _atStartOfTurnCards = 3;
 
         private FightParty _player;
@@ -33,6 +36,9 @@ namespace Masked.Fights
 
         public void InitializeFight(FightParty player, FightParty enemy, GameState.GameStateManager gameStateManager)
         {
+            player.Visuals = _playerRepresentation;
+            enemy.Visuals = _enemyRepresentation;
+
             _winningParty = null;
             _gameStateManager = gameStateManager;
             //TODO: player and enemy come with their own decks to fight
@@ -230,16 +236,16 @@ namespace Masked.Fights
 
             if (_partyInTurn == _player && _playerCard != null)
             {
-                ProcessPlayerTurn();
+                ProcessPlayerTurn(destroyCancellationToken).Forget();
             } else if (_partyInTurn == _enemy)
             {
-                ProcessEnemyTurn();
+                ProcessEnemyTurn(destroyCancellationToken).Forget();
             }
         }
 
-        private void ProcessPlayerTurn()
+        private async UniTask ProcessPlayerTurn(CancellationToken ct)
         {
-            if (!UseCardForTurn(_player, _enemy, _playerCard))
+            if (!await UseCardForTurn(_player, _enemy, _playerCard, ct))
             {
                 return;
             }
@@ -295,7 +301,7 @@ namespace Masked.Fights
             return cards;
         }
 
-        private void ProcessEnemyTurn()
+        private async UniTask ProcessEnemyTurn(CancellationToken ct)
         {
             var card = _enemyAI.SelectCard(_enemy, _player, _chart);
             if (card == null)
@@ -303,7 +309,7 @@ namespace Masked.Fights
                 throw new System.Exception("No card was selected by enemy");
             }
 
-            var wasUsed = UseCardForTurn(_enemy, _player, card);
+            var wasUsed = await UseCardForTurn(_enemy, _player, card, ct);
             if (!wasUsed)
             {
                 return;
@@ -318,7 +324,7 @@ namespace Masked.Fights
             party.Hand.Clear();
         }
 
-        public bool UseCardForTurn(FightParty party, FightParty defendant, CardRepresentation cardPlayed)
+        public async UniTask<bool> UseCardForTurn(FightParty party, FightParty defendant, CardRepresentation cardPlayed, CancellationToken ct)
         {
             //TODO: show damage
             //TODO: is reference check fine?
@@ -338,6 +344,9 @@ namespace Masked.Fights
 
             var reducedDamage = damage * 1 - currentDefenceEffect;
             var flooredDamage = Mathf.FloorToInt(reducedDamage);
+
+            await defendant.Visuals.TakeDamage(flooredDamage);
+
             defendant.HP -= flooredDamage;
 
 #if UNITY_EDITOR

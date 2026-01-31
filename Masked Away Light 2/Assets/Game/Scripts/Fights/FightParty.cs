@@ -12,6 +12,7 @@ namespace Masked.Fights
         public ElementPairing CurrentDefence;
         public int HP;
         public int MaxHP;
+        public FighterVisualRepresentation Visuals;
 
         public FightParty(string name, int damage, int hp)
         {
