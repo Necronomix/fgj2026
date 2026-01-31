@@ -38,6 +38,12 @@ namespace Masked.Player
                 {
                     Level = 1
                 },
+                InventoryData = new InventoryData
+                {
+                    MaximumSize = 20,
+                    Inventory = new List<InventoryItem>()
+                },
+                MaskData = new List<MaskItem>(),
                 CurrentHP = _levelConfigs.GetHPForLevel(1)
             }, PlayerPath);
 
