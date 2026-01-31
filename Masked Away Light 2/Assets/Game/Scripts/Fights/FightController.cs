@@ -30,6 +30,7 @@ namespace Masked.Fights
         private FightParty _partyOutOfTurn;
 
         private bool _inFight = false;
+        private bool _processingTurn = false;
         private FightParty _winningParty;
         private GameStateManager _gameStateManager;
         private UIDocument _uiDocument;
@@ -246,11 +247,18 @@ namespace Masked.Fights
                 return;
             }
 
+            if (_processingTurn)
+            {
+                return;
+            }
+
             if (_partyInTurn == _player && _playerCard != null)
             {
+                _processingTurn = true;
                 ProcessPlayerTurn(destroyCancellationToken).Forget();
             } else if (_partyInTurn == _enemy)
             {
+                _processingTurn = true;
                 ProcessEnemyTurn(destroyCancellationToken).Forget();
             }
         }
@@ -259,6 +267,7 @@ namespace Masked.Fights
         {
             if (!await UseCardForTurn(_player, _enemy, _playerCard, ct))
             {
+                _processingTurn = false;
                 return;
             }
 
@@ -268,6 +277,7 @@ namespace Masked.Fights
 
             Button cardUI, cardUI2, cardUI3;
             UpdateCardsUI(_uiDocument, out cardUI, out cardUI2, out cardUI3);
+            _processingTurn = false;
         }
 
         private void HandleEndOfTurn(FightParty current, FightParty other)
@@ -324,10 +334,12 @@ namespace Masked.Fights
             var wasUsed = await UseCardForTurn(_enemy, _player, card, ct);
             if (!wasUsed)
             {
+                _processingTurn = false;
                 return;
             }
 
             HandleEndOfTurn(_enemy, _player);
+            _processingTurn = false;
         }
 
         private void ClearHandEndOfTurn(FightParty party)
