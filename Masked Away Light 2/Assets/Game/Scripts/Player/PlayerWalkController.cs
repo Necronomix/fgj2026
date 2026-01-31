@@ -55,8 +55,11 @@ namespace Masked.Player
         public void Move(WalkDirection direction)
         {
             var dir2D = _directions[(int)direction];
-            var worldDir = new Vector3(dir2D.x, 0f, dir2D.y);
-            var origin = transform.position + _rayOriginOffset;
+            // Use the grid/world position from WorldManager to compute ray origin and direction
+            var currentWorldPos = new Vector3(WorldManager.CurrentPosition.x, 0f, WorldManager.CurrentPosition.y);
+            var targetWorldPos = currentWorldPos + new Vector3(dir2D.x, 0f, dir2D.y);
+            var worldDir = targetWorldPos - currentWorldPos;
+            var origin = currentWorldPos + _rayOriginOffset;
 
             _animator.SetBool("Up", direction == WalkDirection.Up);
             _animator.SetBool("Down", direction == WalkDirection.Down);
