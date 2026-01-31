@@ -7,7 +7,7 @@ namespace Masked.Inventory
     {
         void IUsed.ItemUsed(InventoryItemRepresentation item, PlayerStateManager stateManager)
         {
-            stateManager.ConsumeItem(item.Slot);
+            stateManager.ConsumeItem(item.ItemId);
         }
     }
 }

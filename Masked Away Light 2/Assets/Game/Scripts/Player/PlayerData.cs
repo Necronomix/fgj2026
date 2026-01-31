@@ -25,7 +25,7 @@ namespace Masked.Player
 
         void SetPlayerName(string value);
         void SetPlayerHp(int value);
-        bool PlaceInInventory(int slot, InventoryItemRepresentation item);
+        bool PlaceInInventory(int slot, InventoryItem item);
         void Unequip(int slot);
         void Equip(int slot);
         int GetMaskLevel(string id);
@@ -33,6 +33,8 @@ namespace Masked.Player
         void SetExperience(int diff);
         void IncreaseMaskLevel(string id);
         void SetMaskExperience(string id, int experience);
+        void SetMaskUsed(string itemId);
+        bool TryGetFirstFreeSlot(out int slot);
     }
 
     [Serializable]
@@ -71,27 +73,37 @@ namespace Masked.Player
             CurrentHP = value;
         }
 
-        public bool PlaceInInventory(int slot, InventoryItemRepresentation item)
+        public bool PlaceInInventory(int slot, InventoryItem item)
         {
             if (InventoryData.Inventory.Any((i) => i.Slot == slot) || slot >= InventoryData.MaximumSize)
             {
                 return false;
             }
 
-            InventoryData.Inventory[slot] = new InventoryItem(item);
+            InventoryData.Inventory[slot] = item;
             return true;
         }
 
         void IPlayerData.Unequip(int slot)
         {
             _changed = true;
-            InventoryData.Inventory[slot].Equipped = false;
+            var inventoryItem = InventoryData.Inventory.FirstOrDefault(i => i.Slot == slot);
+
+            if (inventoryItem != null)
+            {
+                inventoryItem.Equipped = false;
+            }
         }
 
         void IPlayerData.Equip(int slot)
         {
             _changed = true;
-            InventoryData.Inventory[slot].Equipped = true;
+            var inventoryItem = InventoryData.Inventory.FirstOrDefault(i => i.Slot == slot);
+
+            if (inventoryItem != null)
+            {
+                inventoryItem.Equipped = true;
+            }
         }
 
         int IPlayerData.GetMaskLevel(string id)
@@ -133,6 +145,27 @@ namespace Masked.Player
         {
             _changed = true;
             CurrentLevel.Experience = newAmount;
+        }
+
+        void IPlayerData.SetMaskUsed(string itemId)
+        {
+            EquippedMaskId = itemId;
+        }
+
+        bool IPlayerData.TryGetFirstFreeSlot(out int slot)
+        {
+            for (int i = 0; i < InventoryData.MaximumSize; i++)
+            {
+                var inventoryItem = InventoryData.Inventory.FirstOrDefault(item => item.Slot == i);
+
+                if (inventoryItem == null)
+                {
+                    slot = i;
+                    return true;
+                }
+            }
+            slot = -1;
+            return false;
         }
     }
 

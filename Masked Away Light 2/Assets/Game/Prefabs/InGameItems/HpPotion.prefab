@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62b41f39fc94c384cab848f8e4af4d4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Icon: {fileID: 21300000, guid: 1cf495cc29d3e6a47bb3333883422799, type: 3}
+  Icon: {fileID: 21300000, guid: 976bafb4b2d3f744688830d67bd30ad1, type: 3}
   Id: hp_pot
   Name: HP Potion
 --- !u!114 &-5009219252653143557

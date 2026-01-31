@@ -13,6 +13,14 @@ namespace Masked.Inventory
         public int Slot;
         public bool Equipped = false;
 
+        public InventoryItem(string prefabId, string itemId, int slot)
+        {
+            PrefabId = prefabId;
+            ItemId = itemId;
+            Amount = 1;
+            Slot = slot;
+        }
+
         public InventoryItem(InventoryItemRepresentation item)
         {
             Slot = item.Slot;

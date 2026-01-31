@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7053f5ef41ec0964a985309900ad9d85, type: 3}
-  m_Name: Blinding Light
+  m_Name: Ember
   m_EditorClassIdentifier: 
-  _cardName: Blinding Light
+  _cardName: Ember
   _attackPairing:
-    Element: {fileID: 11400000, guid: 70689bafa3d4f6440b968c4390aa97ea, type: 2}
-    Effectiveness: 1
+    Element: {fileID: 11400000, guid: 4dd631b3cab32ab4691fdef343586ac7, type: 2}
+    Effectiveness: 2
   _defencePairing:
-    Element: {fileID: 11400000, guid: 70689bafa3d4f6440b968c4390aa97ea, type: 2}
-    Effectiveness: 4
+    Element: {fileID: 11400000, guid: 4dd631b3cab32ab4691fdef343586ac7, type: 2}
+    Effectiveness: 1
