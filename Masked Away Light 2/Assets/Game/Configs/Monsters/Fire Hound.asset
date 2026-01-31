@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Fire Hound
   m_EditorClassIdentifier: 
   _name: Fire Hound
-  _deck: {fileID: 11400000, guid: 9be21e41d57233c49b462eb775242026, type: 2}
+  _deck: {fileID: 11400000, guid: 9e49f4f94e2179d4bb7e9fcdd000da16, type: 2}
   _hp: 12
   _damage: 3
   _sprites:

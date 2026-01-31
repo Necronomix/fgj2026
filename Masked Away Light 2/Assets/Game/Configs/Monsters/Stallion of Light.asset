@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d462e8724c41ce41a238e0ca000b75d, type: 3}
+  m_Name: Stallion of Light
+  m_EditorClassIdentifier: 
+  _name: Stallion of Light
+  _deck: {fileID: 11400000, guid: 51ef99f2b65bb1f4f8d72b2f4b1b919f, type: 2}
+  _hp: 20
+  _damage: 5
+  _sprites:
+  - {fileID: 21300000, guid: 5720adffdf722494299740aecf98a58e, type: 3}
+  - {fileID: 21300000, guid: 0c3e26822086bf14784bc04eddcc11d5, type: 3}
+  - {fileID: 21300000, guid: 0ea1f46d94b750f4f90c266436c2d699, type: 3}
+  - {fileID: 21300000, guid: c04b09b60def7e64d9ab32bb8fd82150, type: 3}
+  _lootPool: {fileID: 11400000, guid: 4b2fec9932106a34d9996e2c33132836, type: 2}

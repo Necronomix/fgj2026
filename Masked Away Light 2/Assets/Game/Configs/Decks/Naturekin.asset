@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc68240e58396ad4993c667473c82b10, type: 3}
+  m_Name: Naturekin
+  m_EditorClassIdentifier: 
+  _cards:
+  - Card: {fileID: 11400000, guid: ff389c511d0af9746a33560c1241802c, type: 2}
+    Amount: 4
+    LevelRequirement: 1
+  - Card: {fileID: 11400000, guid: 41f17d8cb50ba9d4cb910fb07b31ae57, type: 2}
+    Amount: 2
+    LevelRequirement: 1
+  - Card: {fileID: 11400000, guid: 63846bb436ca59a4dbac5e2c1f7bff6c, type: 2}
+    Amount: 4
+    LevelRequirement: 1
+  - Card: {fileID: 11400000, guid: 41f17d8cb50ba9d4cb910fb07b31ae57, type: 2}
+    Amount: 2
+    LevelRequirement: 3
+  - Card: {fileID: 11400000, guid: 76c54b431b781eb4faf098788327ea74, type: 2}
+    Amount: 2
+    LevelRequirement: 4

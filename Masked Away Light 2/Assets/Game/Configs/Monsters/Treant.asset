@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d462e8724c41ce41a238e0ca000b75d, type: 3}
+  m_Name: Treant
+  m_EditorClassIdentifier: 
+  _name: Treant
+  _deck: {fileID: 11400000, guid: 51ef99f2b65bb1f4f8d72b2f4b1b919f, type: 2}
+  _hp: 12
+  _damage: 4
+  _sprites:
+  - {fileID: 21300000, guid: 9489656261a03b842827bd2f88b165ce, type: 3}
+  - {fileID: 21300000, guid: 9cbb772fc509dd34db3f4b018bcc007e, type: 3}
+  - {fileID: 21300000, guid: 51195809ab1a6b74bb347a7a2cf0cceb, type: 3}
+  - {fileID: 21300000, guid: 454def4e3f412fb4eb93000b039bb506, type: 3}
+  _lootPool: {fileID: 11400000, guid: 5a24ffc546549ae43955d35730fd4a8d, type: 2}

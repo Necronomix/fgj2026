@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d462e8724c41ce41a238e0ca000b75d, type: 3}
+  m_Name: Slime
+  m_EditorClassIdentifier: 
+  _name: Slime
+  _deck: {fileID: 11400000, guid: b58684663f13bb54fbc186c24334d607, type: 2}
+  _hp: 16
+  _damage: 2
+  _sprites:
+  - {fileID: 21300000, guid: 5850556b4c04bf94cb8f61343049e7fe, type: 3}
+  - {fileID: 21300000, guid: 475af7ff1d353ee4bb8bf25237b626f9, type: 3}
+  - {fileID: 21300000, guid: 6bf3ce47180e0ba4daa635f7c610436a, type: 3}
+  - {fileID: 21300000, guid: 680c4848386f2824dbd073300a8fa691, type: 3}
+  _lootPool: {fileID: 11400000, guid: 6116f1baab6e35347b020b3ca47db138, type: 2}
