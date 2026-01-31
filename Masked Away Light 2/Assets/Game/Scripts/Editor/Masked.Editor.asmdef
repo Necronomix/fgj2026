@@ -1,0 +1,16 @@
+{
+    "name": "Masked.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:0b442cd097f3d45409976ecd29c30f90"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
