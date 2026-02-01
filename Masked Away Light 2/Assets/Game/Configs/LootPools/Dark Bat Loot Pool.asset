@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18c0d70e09a42ad43b1a4141e3b6dfd9, type: 3}
+  m_Name: Dark Bat Loot Pool
+  m_EditorClassIdentifier: 
+  _loots:
+  - Target: {fileID: 3220135476408534186, guid: 667963261d483234aa8f4c3ae3a2d731, type: 3}
+    Chance: 0.2
+  - Target: {fileID: 351276703130618879, guid: 22b1ae2a092abe040bda6485a8846206, type: 3}
+    Chance: 0.2

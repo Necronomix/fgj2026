@@ -54,6 +54,7 @@ MonoBehaviour:
   _fightScene: FightScene
   _monsters:
   - {fileID: 11400000, guid: 4390d714bb1845748bfea75c95382797, type: 2}
+  mainmenuPrefab: {fileID: 0}
   State: 0
 --- !u!114 &7654085859442232135
 MonoBehaviour:
@@ -105,6 +106,7 @@ MonoBehaviour:
   - {fileID: 3220135476408534186, guid: 87ff20de0bc630a4f999288cfe868b07, type: 3}
   - {fileID: 3220135476408534186, guid: 3c3064cdc0492ac4481c1c4a2d73bc56, type: 3}
   - {fileID: 3220135476408534186, guid: cff0cedc4e2872b4c9b084df9be1316f, type: 3}
+  - {fileID: 3220135476408534186, guid: 667963261d483234aa8f4c3ae3a2d731, type: 3}
   _playerStateManager: {fileID: 1427413937278612753}
   _inventoryUiPrefab: {fileID: 562288221512388106, guid: cf4d234465f91dc419b33c4b9da81020, type: 3}
   _defaultDeck: {fileID: 11400000, guid: 9be21e41d57233c49b462eb775242026, type: 2}

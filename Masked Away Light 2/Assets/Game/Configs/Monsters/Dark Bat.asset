@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d462e8724c41ce41a238e0ca000b75d, type: 3}
+  m_Name: Dark Bat
+  m_EditorClassIdentifier: 
+  _name: Dark Bat
+  _deck: {fileID: 11400000, guid: 8f66affd07ec17f4f83f66dc10574ea5, type: 2}
+  _hp: 8
+  _damage: 2
+  _experience: 2
+  _sprites:
+  - {fileID: 21300000, guid: 6bbb2767ba3eb724fb0785266887d604, type: 3}
+  - {fileID: 21300000, guid: 30c744bc91dc907428a6a7d97560f8a1, type: 3}
+  - {fileID: 21300000, guid: af24f3f73fe77cc4dbc4cc43fa953415, type: 3}
+  - {fileID: 21300000, guid: 8ce65e2ad1d8ee04ca9fe0f06dbd9fee, type: 3}
+  _lootPool: {fileID: 11400000, guid: f6dd260d88fc30c4c98be84b28149657, type: 2}
