@@ -349,7 +349,7 @@ namespace Masked.Fights
                 _processingTurn = false;
                 return;
             }
-            UpdateEnemyDefence();
+            
             HandleEndOfTurn(_enemy, _player);
             _processingTurn = false;
         }
@@ -398,6 +398,10 @@ namespace Masked.Fights
             var flooredDamage = Mathf.FloorToInt(reducedDamage);
 
             party.Visuals.AttackVisual();
+            if (party == _enemy)
+            {
+                UpdateEnemyDefence();
+            }
 
             await defendant.Visuals.TakeDamage(flooredDamage);
 
