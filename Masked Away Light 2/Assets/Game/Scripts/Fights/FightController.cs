@@ -60,10 +60,9 @@ namespace Masked.Fights
 
             var random = _enemy.Hand[UnityEngine.Random.Range(0, _enemy.Hand.Count)];
             _enemy.CurrentDefence = random.DefencePairing;
-            UpdateEnemyDefence();
-
+            
             InitializeFightUI();
-
+            UpdateEnemyDefence();
 #if UNITY_EDITOR
             UnityEngine.Debug.Log($"Fight initialized between {_player.Name} and {_enemy.Name}");
 #endif
