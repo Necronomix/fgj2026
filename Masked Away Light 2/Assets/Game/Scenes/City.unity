@@ -26170,7 +26170,7 @@ Transform:
   m_GameObject: {fileID: 1861906316}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 48.4823, y: 1.06, z: 5.4463}
+  m_LocalPosition: {x: 48.58, y: 1.06, z: -15.84}
   m_LocalScale: {x: 11.698592, y: 2.3264, z: 9.095281}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -26190,7 +26190,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   possibleEncounters:
   - {fileID: 11400000, guid: ca58979db3d65f8469452d31fdc8b465, type: 2}
-  encounterChance: 0.05
+  encounterChance: 0.1
 --- !u!65 &1861906319
 BoxCollider:
   m_ObjectHideFlags: 0
