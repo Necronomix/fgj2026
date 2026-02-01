@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _loots:
   - Target: {fileID: 3220135476408534186, guid: d12c1db53a1951d4db26ef626fd66be7, type: 3}
-    Chance: 0.05
+    Chance: 0.15
   - Target: {fileID: 351276703130618879, guid: 22b1ae2a092abe040bda6485a8846206, type: 3}
     Chance: 0.3
