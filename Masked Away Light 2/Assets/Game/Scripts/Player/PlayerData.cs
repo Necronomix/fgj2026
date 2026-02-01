@@ -35,6 +35,7 @@ namespace Masked.Player
         void SetMaskExperience(string id, int experience);
         void SetMaskUsed(string itemId);
         bool TryGetFirstFreeSlot(out int slot);
+        void AddMask(string id);
     }
 
     [Serializable]
@@ -81,6 +82,7 @@ namespace Masked.Player
             }
 
             InventoryData.Inventory.Add(item);
+            _changed = true;
             return true;
         }
 
@@ -166,6 +168,12 @@ namespace Masked.Player
             }
             slot = -1;
             return false;
+        }
+
+        void IPlayerData.AddMask(string id)
+        {
+            MaskData.Add(new MaskItem(1, 0, id));
+            _changed = true;
         }
     }
 

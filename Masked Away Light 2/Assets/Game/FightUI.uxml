@@ -2,7 +2,14 @@
     <ui:VisualElement style="flex-grow: 1;">
         <ui:VisualElement name="EmptySpace" style="flex-grow: 1;">
             <ui:ProgressBar value="100" title="20" name="PlayerHP" class="green-progress" style="align-items: stretch; justify-content: flex-start; align-content: flex-start; align-self: flex-end; position: absolute; bottom: 15%; right: 15px; background-size: 100% 100%; min-width: 150px;" />
-            <ui:ProgressBar value="100" title="20" name="EnemyHP" class="green-progress" style="align-items: stretch; justify-content: flex-start; align-content: flex-start; align-self: flex-end; position: absolute; bottom: auto; right: auto; background-size: 100% 100%; min-width: 150px; top: 15%; left: 5%;" />
+            <ui:ProgressBar value="100" title="20" name="EnemyHP" class="green-progress" style="align-items: stretch; justify-content: flex-start; align-content: flex-start; align-self: flex-end; position: absolute; bottom: auto; right: auto; background-size: 100% 100%; min-width: 150px; top: 15%; left: 5%;">
+                <ui:GroupBox name="DefendingElement" style="align-items: flex-start; flex-direction: column; justify-content: flex-start; align-self: flex-end; margin-right: 0; margin-top: 0; padding-top: 0; top: auto; right: -15%;">
+                    <ui:VisualElement name="DefSymbol" style="flex-grow: 1; width: 16px; align-items: center; justify-content: flex-start; background-image: url(&quot;project://database/Assets/Game/UI/element_icons.png?fileID=2079376928&amp;guid=17c6cb0834923a841802bf8fa8e86865&amp;type=3#element_icons_0&quot;); height: 16px; max-height: 16px; max-width: 16px;" />
+                    <ui:VisualElement name="DefSymbol" style="flex-grow: 1; width: 16px; align-items: center; justify-content: flex-start; background-image: url(&quot;project://database/Assets/Game/UI/element_icons.png?fileID=2079376928&amp;guid=17c6cb0834923a841802bf8fa8e86865&amp;type=3#element_icons_0&quot;); height: 16px; max-height: 16px; max-width: 16px;" />
+                    <ui:VisualElement name="DefSymbol" style="flex-grow: 1; width: 16px; align-items: center; justify-content: flex-start; background-image: url(&quot;project://database/Assets/Game/UI/element_icons.png?fileID=2079376928&amp;guid=17c6cb0834923a841802bf8fa8e86865&amp;type=3#element_icons_0&quot;); height: 16px; max-height: 16px; max-width: 16px;" />
+                    <ui:VisualElement name="DefSymbol" enabled="true" style="flex-grow: 1; width: 16px; align-items: center; justify-content: flex-start; background-image: url(&quot;project://database/Assets/Game/UI/element_icons.png?fileID=2079376928&amp;guid=17c6cb0834923a841802bf8fa8e86865&amp;type=3#element_icons_0&quot;); height: 16px; max-height: 16px; max-width: 16px;" />
+                </ui:GroupBox>
+            </ui:ProgressBar>
         </ui:VisualElement>
         <ui:VisualElement name="BottomPanel" class="game-panel" style="bottom: auto; top: auto;">
             <ui:VisualElement name="FightButtons" style="flex-grow: 1;">

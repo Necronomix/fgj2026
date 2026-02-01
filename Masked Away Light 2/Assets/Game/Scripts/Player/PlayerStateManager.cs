@@ -130,5 +130,10 @@ namespace Masked.Player
         {
             SetPlayerHp(GetMaxHP());
         }
+
+        internal void AddMask(string id)
+        {
+            _data.AddMask(id);
+        }
     }
 }

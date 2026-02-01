@@ -15,7 +15,6 @@ namespace Masked.Fights
     {
         [SerializeField] private ElementType[] _elements;
         [SerializeField] private ElementalEffectivenessChart _chart;
-        [SerializeField] private Card[] _cards;
         [SerializeField] private GameObject _fightUIPrefab;
         [SerializeField] private FighterVisualRepresentation _playerRepresentation;
         [SerializeField] private FighterVisualRepresentation _enemyRepresentation;
@@ -44,17 +43,6 @@ namespace Masked.Fights
 
             _winningParty = null;
             _gameStateManager = gameStateManager;
-            //TODO: player and enemy come with their own decks to fight
-            var cards = new List<CardRepresentation>();
-            for (int i = 0; i < _cards.Length; i++)
-            {
-                for (int card = 0; card < 10; card++)
-                {
-                    cards.Add(new CardRepresentation(_cards[i]));
-                }
-            }
-
-            FillCards(enemy, cards);
 
             _player = player;
             _enemy = enemy;
@@ -72,12 +60,32 @@ namespace Masked.Fights
 
             var random = _enemy.Hand[UnityEngine.Random.Range(0, _enemy.Hand.Count)];
             _enemy.CurrentDefence = random.DefencePairing;
+            UpdateEnemyDefence();
 
             InitializeFightUI();
 
 #if UNITY_EDITOR
             UnityEngine.Debug.Log($"Fight initialized between {_player.Name} and {_enemy.Name}");
 #endif
+        }
+
+        private void UpdateEnemyDefence()
+        {
+            if (_uiDocument == null)
+            {
+                return;
+            }
+
+            var defenceCounter = _uiDocument.rootVisualElement.Q("DefendingElement");
+            var symbols = defenceCounter.Query<VisualElement>("DefSymbol").ToList();
+
+            for (int i = 0; i < symbols.Count; i++)
+            {
+                var symbol = symbols[i];
+                var defence = _enemy.CurrentDefence;
+                symbol.visible = defence.Effectiveness >= i + 1;
+                symbol.style.backgroundImage = Background.FromSprite(defence.Element.Icon);
+            }
         }
 
         private void InitializeFightUI()
@@ -342,7 +350,7 @@ namespace Masked.Fights
                 _processingTurn = false;
                 return;
             }
-
+            UpdateEnemyDefence();
             HandleEndOfTurn(_enemy, _player);
             _processingTurn = false;
         }

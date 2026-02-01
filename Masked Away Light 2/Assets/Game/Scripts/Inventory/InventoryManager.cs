@@ -155,7 +155,15 @@ namespace Masked.Inventory
             {
                 if (_data.TryGetFirstFreeSlot(out var slot))
                 {
-                    _data.PlaceInInventory(slot, new InventoryItem(item.Id, Guid.NewGuid().ToString(), slot));
+                    var id = Guid.NewGuid().ToString();
+                    _data.PlaceInInventory(slot, new InventoryItem(item.Id, id, slot));
+                    if (item.TryGetComponent<MaskBehaviour>(out var equipping))
+                    {
+                        if (equipping.EquipmentType == "Mask")
+                        {
+                            _playerStateManager.AddMask(id);
+                        }
+                    }
                 }
             }
         }

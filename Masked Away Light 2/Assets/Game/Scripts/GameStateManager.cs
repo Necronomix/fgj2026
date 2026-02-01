@@ -164,6 +164,11 @@ namespace Masked.GameState
                     player.Deck.Add(new CardRepresentation(cardInDeck.Card));
                 }
             }
+            enemy.Deck = new();
+            foreach (var cardInDeck in monsterSelected.Deck.Cards)
+            {
+                enemy.Deck.Add(new CardRepresentation(cardInDeck.Card));
+            }
 
             controller.InitializeFight(player, enemy, this);
             enemy.Visuals.SetSprite(monsterSelected.Sprites);
