@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Bridge-frog
   m_EditorClassIdentifier: 
   _name: Bridge-frog
-  _deck: {fileID: 11400000, guid: 51ef99f2b65bb1f4f8d72b2f4b1b919f, type: 2}
+  _deck: {fileID: 11400000, guid: cc37debdc76c3fc46ae22f47218359ec, type: 2}
   _hp: 9
   _damage: 3
   _experience: 4
