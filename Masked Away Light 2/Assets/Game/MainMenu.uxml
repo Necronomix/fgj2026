@@ -1,5 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <ui:GroupBox style="top: 45%;">
+    <ui:GroupBox style="top: 10%;">
+        <ui:VisualElement style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Game/Sprite/masks_of_power_menu_image.png?fileID=21300000&amp;guid=0e5bf8f640cab6c4eacb6c15126a69e0&amp;type=3#masks_of_power_menu_image&quot;); -unity-background-scale-mode: stretch-to-fill; max-width: 100%; max-height: 20%; min-width: 100%; min-height: 200%;" />
         <ui:Button text="Start" name="StartButton" />
         <ui:Button text="Exit" name="ExitButton" />
     </ui:GroupBox>

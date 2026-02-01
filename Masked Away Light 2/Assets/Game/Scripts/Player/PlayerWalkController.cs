@@ -37,6 +37,11 @@ namespace Masked.Player
         private Vector3 _rayOriginOffset = new Vector3(0f, 0.5f, 0f);
 
         private int fightCooldown = 5;
+        private bool disableCombat = false;
+        private bool canMove = true;
+
+        [SerializeField]
+        private SpriteRenderer _exclamationMarkRenderer;
 
         private static Vector2Int[] _directions = new Vector2Int[]
         {
@@ -51,10 +56,14 @@ namespace Masked.Player
             // Find animator in children
             _animator = GetComponentInChildren<Animator>();
             Assert.IsNotNull(_animator, "Animator component not found in children of PlayerWalkController");
+
+            Assert.IsNotNull(_exclamationMarkRenderer, "Exclamation object not found as child of PlayerWalkController");
         }
 
         public void Move(WalkDirection direction)
         {
+            if (!canMove) return;
+
             var dir2D = _directions[(int)direction];
             // Use the grid/world position from WorldManager to compute ray origin and direction
             var currentWorldPos = new Vector3(WorldManager.CurrentPosition.x, 0f, WorldManager.CurrentPosition.y);
@@ -104,6 +113,8 @@ namespace Masked.Player
 
         private void CheckForFightAreasAtPosition(Vector3 worldPos)
         {
+            if (disableCombat) return;
+
             var center = worldPos + new Vector3(0f, 0.5f, 0f);
             var halfExtents = new Vector3(0.45f, 0.5f, 0.45f);
 
@@ -131,8 +142,19 @@ namespace Masked.Player
             {
                 MonsterConfig selectedMonster = allPossibleEncounters[UnityEngine.Random.Range(0, allPossibleEncounters.Count)];
                 Debug.Log($"A wild {selectedMonster.Name} appears!");
-                GameStateManager.Instance.FromWorldToFight(selectedMonster).Forget();
+                _exclamationMarkRenderer.enabled = true;
+                // Wait 2 seconds before starting combat
+                canMove = false;
+                UniTask.Delay(1500).ContinueWith(() =>
+                {
+                    startCombat(selectedMonster);
+                }).Forget();
             }
+        }
+
+        void startCombat(MonsterConfig selectedMonster)
+        {
+            GameStateManager.Instance.FromWorldToFight(selectedMonster).Forget();
         }
 
         void Update()
@@ -156,6 +178,12 @@ namespace Masked.Player
             else if (kb.rightArrowKey.wasPressedThisFrame)
             {
                 Move(WalkDirection.Right);
+            }
+
+            if (kb.pKey.wasPressedThisFrame)
+            {
+                disableCombat = !disableCombat;
+                Debug.Log($"Combat disabled: {disableCombat}");
             }
 
             // Update player transform smoothly to move to currentPosition

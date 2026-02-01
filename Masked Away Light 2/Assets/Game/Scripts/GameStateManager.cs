@@ -28,7 +28,7 @@ namespace Masked.GameState
         [SerializeField] private string _menuScene = "MainMenu";
         [SerializeField] private string _fightScene = "FightScene";
         [SerializeField] private MonsterConfig[] _monsters;
-
+        [SerializeField] private GameObject mainmenuPrefab;
 
         public static GameStateManager Instance;
 
@@ -49,9 +49,16 @@ namespace Masked.GameState
         {
             State = State.MainMenu;
 
-            //TODO: UI
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName(_menuScene));
+            var mainMenuObject = Instantiate(mainmenuPrefab);
 
-            FromMenuToWorld().Forget();
+            var uiDocument = mainMenuObject.GetComponent<UIDocument>();
+            uiDocument.rootVisualElement.Q<Button>("StartButton").clicked += () =>
+            {
+                FromMenuToWorld().Forget();
+            };
+
+            //FromMenuToWorld().Forget();
         }
 
         public async UniTask FromMenuToWorld()
